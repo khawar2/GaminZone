@@ -1,0 +1,71 @@
+﻿@model IEnumerable<GamingZone.Models.Event>
+
+@{
+    ViewBag.Title = "Events";
+}
+
+<h2>Events</h2>
+
+
+<p>
+    @Html.ActionLink("Create New", "Create", new { htmlAttributes = new { @class = "btn btn-sm btn-success" } })
+</p>
+
+<table class="table table-bordered"  id="eventTable"   style="width:100%">
+    <tbody>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th></th>
+        </tr>
+    </tbody>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
+                    <a class="btn btn-sm btn-info" href=@Url.Action("Edit", "Events") ?id=@item.Id>Edit</a>
+                    <a class="btn btn-sm btn-warning" href=@Url.Action("Details", "Events") ?id=@item.Id>Details</a>
+                    <a class="btn btn-sm btn-danger" href=@Url.Action("Delete", "Events") ?id=@item.Id>Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@*@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#eventTable').DataTable();
+        });
+    </script>
+}*@
