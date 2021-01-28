@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Pro Gamers </title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
@@ -62,33 +62,41 @@
 
 
                         </li>
+                        <li>
+                            <a style="color:white;" href="@Url.Action("Login","Account")">
+                                Login
 
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" href="#">
-                                <span style="color:white;"> Settings</span>
-                                <span class="caret">
-                                    <ul class="dropdown-menu">
-
-                                        <li>
-
-                                            <a href="@Url.Action("Login" , "Account")"><span><i class="fas fa-female"></i></span>  Sign-in</a>
-                                        </li>
-                                        <li>
-                                            <a href="@Url.Action("SignOut","Account")"><span><i class="fas fa-sign-out-alt"></i></span>  Sign Out</a>
-                                        </li>
-
-                                        <li class="divider"></li>
-                                        <li>
-                                            <a href="@Url.Action("SignOut" , "Users")"><span><i class="fas fa-bug"></i></span>  Request a Complain</a>
-                                        </li>
-
-
-                                    </ul>
-                                </span>
                             </a>
 
 
                         </li>
+                        @if (Session["Role"] != null)
+                        {
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" href="#">
+                                    <span style="color:white;"> Settings</span>
+                                    <span class="caret">
+                                        <ul class="dropdown-menu">
+
+                                            @*<li>
+
+                                                <a href="@Url.Action("Login" , "Account")"><span><i class="fas fa-female"></i></span>  Sign-in</a>
+                                            </li>*@
+
+                                            <li>
+                                                <a href="@Url.Action("SignOut","Account")"><span><i class="fas fa-sign-out-alt"></i></span>  Sign Out</a>
+                                            </li>
+
+
+
+                                        </ul>
+                                    </span>
+                                </a>
+
+
+                            </li>
+                        }
+
 
                     </ul>
 
@@ -193,13 +201,6 @@
         </div>
 
     }
-    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
-
-        <script src="~/Scripts/bootstrap.min.js"></script>
-
-        @RenderSection("Scripts", false)*@
-
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

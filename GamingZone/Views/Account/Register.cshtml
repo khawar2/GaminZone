@@ -1,233 +1,306 @@
-﻿@model GamingZone.ViewModels.Register
+﻿@*@model GamingWebsite.Models.Account.Register*@
+@model GamingZone.ViewModels.Register
+
 @{
     ViewBag.Title = "Register";
-    Layout = null;
 }
 
+<style>
+    body {
+        font-family: 'Comic Sans MS','Segoe UI', Tahoma, Geneva, Verdana;
+        background-color: #2a2929;
+        color: white;
+    }
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
 
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Friends Corner CRM System</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-    <!-- BOOTSTRAP STYLES-->
-    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
-    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- MORRIS CHART STYLES-->
-    <link href="~/Content/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-    <!-- CUSTOM STYLES-->
-    <link href="~/Content/assets/css/custom.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-</head>
-<body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html"><img src="~/Images/logo.png" width="50" /> Pro Gamer</a>
-            </div>
-            <div style="color: white;
-padding: 15px 50px 5px 50px;
-float: right;
-font-size: 16px;"><a href="@Url.Action("SignOut","Account")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success square-btn-adjust">Logout</a></div>
-        </nav>
-        <!-- /. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                    <li class="text-center">
-                        <img src="~/Images/logo.png" class="user-image img-responsive" />
-                    </li>
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%; /* Could be more or less, depending on screen size */
+    }
 
+    /* The Close Button */
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
 
-                    <li>
-                        @Html.ActionLink(" Dashboard", "Index", "Dashboard", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add Solo & Teams", "Register", "Account", null, new { @class = " fa fa-desktop fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add Category", "Create", "Categories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add SubCategory", "Create", "SubCategories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add Products", "Create", "Products", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Category", "Index", "Categories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   SubCategory", "Index", "SubCategories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Teams Info", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Players Info", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
-                    </li>
-                    <li>
+    #Items {
+        display: none;
+    }
 
-                        @Html.ActionLink("  Teams Requests", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+    .carousel-inner img {
+        width: 50%; /* Set width to 100% */
+        margin: auto;
+        min-height: 100px;
+    }
+</style>
 
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
+<div class="text-center" style="background-color:#c8c8c8; color:black;">
+    <p style="font-size:20px;">
+        Welcome <span style="color:#188e13; font-weight:bold;">
+            
+        </span> To ProGamers Store
 
-                    </li>
-                    <li>
-                        @Html.ActionLink(" Manage Schedules", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+    </p>
 
-                    </li>
-                    <li>
-                        @Html.ActionLink(" Create Schedules", "Create", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+</div>
+<br />
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-lg-6">
+            <div style="background-color:darkgreen;" id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
 
-                    </li>
-                    <li>
-                        @Html.ActionLink(" Commission", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-
-                    </li>
-
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Profile</a>
-                            </li>
-                            <li>
-                                <a href="#">Annoucements</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </nav>
-        <!-- /. NAV SIDE  -->
-        <div id="page-wrapper">
-            <div id="page-inner">
-                @*<div class="row">
-                    <div class="col-md-12">
-                        <h2> <img src="~/Images/logo.png" width="50" />Dashboard</h2>
-                        <h5>  Welcome<span style="color:lime"> @WebSecurity.CurrentUserName</span>  , Love to see you back. </h5>
-                    </div>
-                </div>*@
-                <!-- /. ROW  -->
-                <hr />
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Form Elements -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Register Solo Players & Teams
-                            </div>
-                            <div style="color:white; background-color:#222323" class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-
-                                        @using (Html.BeginForm())
-                                        {
-                                            @Html.AntiForgeryToken()
-
-                                            <div class="form-horizontal">
-
-                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.firstname, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.firstname, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.firstname, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.lastname, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.lastname, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.lastname, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-
-                                               
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+                </ol>
 
 
-                                                    </div>
-                                                </div>
 
-                                                <div class="form-group">
-                                                    <div class="col-md-offset-2 col-md-10">
-                                                        <input style="background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" type="submit" value="Register" class="btn btn-block btn-success" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
 
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Form Elements -->
+                        <img src="~/Images/1.jpg" alt="Image">
+                        <div style="background-color:limegreen;" class="carousel-caption">
+                            <h3 style="color:aliceblue">Hight Quality</h3>
+                            <p>Pro Gamer Offer High quality produts.</p>
                         </div>
                     </div>
 
+                    <div class="item">
+                        <img src="~/Images/f.jpg" alt="Image">
+                        <div style="        background-color: limegreen;" class="carousel-caption">
+                            <h3 style="color:aliceblue">Best Prices</h3>
+                            <p>Pro Gamer offer Best prices and discounted rates.</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="~/Images/x.jpg" alt="Image">
+                        <div style="        background-color: limegreen;" class="carousel-caption">
+                            <h3 style="color:aliceblue">Discounted Deals</h3>
+                            <p>Pro Gamer offer best and valuable deals.</p>
+                        </div>
+                    </div>
                 </div>
-                <!-- /. PAGE INNER  -->
+
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+
+                <br />
+                <br />
+                <br />
+                <p>
+                    Would you like to Shop from <span style="color:limegreen;">ProGamers</span> Store <span>
+                        <a class="btn btn-primary" href="@Url.Action("Index","Ecommerce")">
+                            <i class="fa fa-home "></i>
+                            Shop Now
+                        </a>
+                    </span>
+                </p>
+
             </div>
-            <!-- /. PAGE WRAPPER  -->
+            <div class="panel text-center" style="padding: 8px;
+        border-radius: 6px;
+        background-color: #c8c8c8;" class="col-md-4 col-lg-4 col-sm-4">
+
+                <h1 style="color:red"> User can Register a team after approval</h1>
+                <h3 style="color:#aa1f1f"> Team Leads can Register users</h3>
+                <p style="color:black;">Later, the members will be added by Team Leads</p>
+                <p style="color:black;">
+                    For More information please feel free to
+
+                    <a href="@Url.Action("Contact","Ecommerce")">
+
+                        <i class="fa fa-phone-square fa-2x"></i>
+                        Contact us
+                    </a>
+                </p>
+                <p style="color:black;">
+                    If you like to learn more about us you can check out
+                    <a href="">
+                        <i class="fa fa-info-circle fa-2x"></i>
+                        About us
+                    </a>
+
+
+                </p>
+
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            @using (Html.BeginForm())
+            {
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.firstname, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.firstname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.firstname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.lastname, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.lastname, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.lastname, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Role, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Role, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Role, "", new { @class = "text-danger" })
+
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input style="background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" id="Register" value="Register" class="btn btn-block btn-success" />
+                        </div>
+                    </div>
+                </div>
+
+            }
+
         </div>
 
-
     </div>
+</div>
 
-    <!-- JQUERY SCRIPTS -->
-    <script src="~/Content/assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="~/Content/assets/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="~/Content/assets/js/jquery.metisMenu.js"></script>
-    <!-- MORRIS CHART SCRIPTS -->
-    <script src="~/Content/assets/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="~/Content/assets/js/morris/morris.js"></script>
-    <!-- CUSTOM SCRIPTS -->
-    <script src="~/Content/assets/js/custom.js"></script>
 
-    <script src="~/Scripts/alertify/alertify.js"></script>
-    <script src="~/Scripts/alertify/alertify.min.js"></script>
+<div style="color:black; width:1000px;" id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span style="font-size:30px; color:red;" class="close">&times;</span>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+
+                    <h1>Thank you for Joining us </h1>
+                    <img src="~/Images/logo.png" width="100" height="50" /> <h3>Pro gamers will approve your request</h3>
+                    <p>
+                        Usually it takes 1 to 2 days! Please be patient
+                    </p>
+                    <p>
+                        Would you like to Shop from <span style="color:limegreen;">ProGamers</span> Store <span>
+                            <a href="@Url.Action("Index","Ecommerce")">
+                                <i class="fa fa-home fa-2x"></i>
+                                Shop Now
+                            </a>
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+<script>
+    var modal = document.getElementById("myModal");
+
+
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("Register");
+
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+
+
+    }
+
+
+
+
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+
+</script>
