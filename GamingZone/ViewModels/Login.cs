@@ -10,8 +10,7 @@ namespace GamingZone.ViewModels
     {
         [Display(Name = "Email:")]
         [Required(ErrorMessage = "User Name is Required.")]
-        [DataType(DataType.Text)]
-        [StringLength(20, ErrorMessage = "Do not enter more than 20 characters.")]
+        [DataType(DataType.EmailAddress,ErrorMessage ="Please Enter Valid Email")]
         public string UserName { get; set; }
 
 

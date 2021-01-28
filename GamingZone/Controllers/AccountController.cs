@@ -24,7 +24,7 @@ namespace GamingZone.Controllers
         {
             if (ModelState.IsValid)
             {
-              var user=  db.Users.Where(m => m.Email.Contains(login.UserName)).FirstOrDefault();
+              var user=  db.Users.Where(m => m.Email==login.UserName && m.Password==login.Password).FirstOrDefault();
 
            
                 if (user!=null)
@@ -39,7 +39,7 @@ namespace GamingZone.Controllers
                         ViewData["user"] = user.Role;
                         Session["Role"] = user.Role;
                     }
-                    return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             else
@@ -56,54 +56,44 @@ namespace GamingZone.Controllers
         }
 
 
-        //[HttpGet]
-        //[Authorize]
-        // public ActionResult Register()
-        // {
-        //     return GetRolesForCurrentUser();
-        // }
-
-        // private ActionResult GetRolesForCurrentUser()
-        // {
-        //     if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator"))
-        //         ViewBag.RoleId = (int)Role.Administrator;
-        //     else
-        //         ViewBag.RoleId = (int)Role.NoRole;
-        //     return View();
-        // }
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
 
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult Register(Register register)
+        {
+            if (ModelState.IsValid)
+            {
+                bool isExisted = db.Users.Where(m => m.Email == register.UserName).Any();
+                if (isExisted)
+                {
+                    ModelState.AddModelError("UserName", "User Name Already Exits");
+                }
+                else
+                {
+                 
+                    return RedirectToAction("Index", "Dashboard");
+                }
+            }
+            return View();
+        }
 
-        // [HttpPost,ValidateAntiForgeryToken]
-        // [Authorize]
-        // public ActionResult Register(Register register)
-        // {
-        //     GetRolesForCurrentUser();
-
-        //     if (ModelState.IsValid)
-        //     {
-
-        //         bool isExisted = WebSecurity.UserExists(register.UserName);
-        //         if (isExisted)
-        //         {
-        //             ModelState.AddModelError("UserName", "User Name Already Exits");
-        //         }
-        //         else
-        //         {
-        //             WebSecurity.CreateUserAndAccount(register.UserName, register.Password, new
-        //             { FirstName = register.firstname,LastName= register.lastname, Email = register.email,Phone= register.phone,PhoneCode= register.phonecode, Age = register.Age });
-        //             Roles.AddUserToRole(register.UserName, register.Role);
-
-        //             return RedirectToAction("Index", "Dashboard");
+        //private ActionResult GetRolesForCurrentUser()
+        //{
+        //    if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator"))
+        //        ViewBag.RoleId = (int)Role.Administrator;
+        //    else
+        //        ViewBag.RoleId = (int)Role.NoRole;
+        //    return View();
+        //}
 
 
-        //         }
 
-        //     }
-
-
-        //     return View();
-        // }
 
 
 
