@@ -1,0 +1,380 @@
+﻿@model GamingWebsite.Models.MyViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.nav2 li  > .sub-menu').parent().hover(function () {
+            var submenu = $(this).children('.sub-menu');
+            if ($(submenu).is(':hidden')) {
+                $(submenu).slideDown(200);
+            } else {
+                $(submenu).slideUp(200);
+            }
+        });
+    })
+
+</script>
+<style>
+    body {
+        font-family: 'Comic Sans MS','Segoe UI', Tahoma, Geneva, Verdana;
+        background-color: #2a2929;
+        color: white;
+    }
+
+    #hide {
+        font-family: 'Comic Sans MS','Segoe UI', Tahoma, Geneva, Verdana;
+        font-weight: bold;
+        font-size: 20px;
+        color: black;
+    }
+
+    .carousel-inner img {
+        width: 50%; /* Set width to 100% */
+        margin: auto;
+        min-height: 100px;
+    }
+
+    .nav2 li {
+        list-style: none;
+        padding: 5px 10px;
+        width: 300px;
+    }
+
+    .nav2 > li {
+        float: left;
+    }
+
+    .nav2 .sub-menu {
+        display: none;
+    }
+
+    .name {
+        font-size: 15px;
+        font-weight: 300;
+        color: white;
+        text-decoration: none;
+    }
+
+    .name2 {
+        color: white;
+    }
+
+    .sub-menu {
+        background-color: limegreen;
+    }
+</style>
+<div class="text-center" style="background-color:#c8c8c8; color:black;">
+    <p style="font-size:20px;">
+        Welcome <span style="color:#188e13; font-weight:bold;">
+            @WebSecurity.CurrentUserName
+        </span> To ProGamers Store
+
+    </p>
+    @if (TempData["Total"] == null)
+    {
+<p class="text-center" style="font-weight:bold;">
+    Total Bill :
+    <span style="padding: 8px; border-radius: 6px; border:thin dashed; border-color: #2a2929; background-color: #cf3d3d; font-size: 20px; ">
+        0 PKR</span>
+</p>
+    }
+    else
+    {
+
+
+        <p style="font-weight:bold;">Total Bill : 
+            <span style="        padding: 8px;
+        border-radius: 6px;
+        border: dashed;
+        border-color: #2a2929;
+        background-color: #cf3d3d;
+        font-size: 20px;">
+                @TempData["Total"] PKR
+            </span>
+    </p>
+    }
+    @Html.ActionLink(" CheckOut", "checkout", "Ecommerce", new { @class = "fas fa-shopping-cart fa-2x btn btn-info", style = "background-color: blue; background-image: linear-gradient(blue,black);" })
+   
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert alert-success alert-dismissible">
+            <button class="close" data-dismiss="alert">&times;</button>
+            <strong>Success!</strong>@TempData["msg"]
+        </div>
+    }
+    else
+    {
+
+    }
+</div>
+
+<br />
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-lg-3 col-md-3">
+
+            <!-- menu -->
+            <div id="MainMenu">
+
+                <div class="list-group panel">
+
+
+                    <p class="text-center" id="hide">Categories</p>
+
+
+
+                    <nav id="hide">
+                        <ul class="nav2">
+                            @{
+
+
+                                foreach (var category in Model.ListB.Select(x => x.Category).Distinct())
+                                {
+                                    <li>
+                                        <a class="name" href="">@category.CategoryName <i class="fa fa-caret-down"></i></a>
+
+                                        <ul class="sub-menu">
+                                            @foreach (var subcategory in Model.ListB.Where(x => category.CategoryID == x.CategoryID))
+                                            {
+                                                <li><a class="name2" href="/Ecommerce/Index?SubcategoryName=@subcategory.SubcategoryName">@subcategory.SubcategoryName</a></li>
+                                            }
+                                        </ul>
+
+                                    </li>
+                                }
+                            }
+                        </ul>
+
+                    </nav>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!--Menu End-->
+
+        <div class="col-sm-9 col-lg-9 col-md-9">
+
+
+            <div style="background-color:darkgreen;" id="myCarousel" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+
+                </ol>
+
+
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+
+                        <img src="~/Images/1.jpg" alt="Image">
+                        <div style="background-color:limegreen;" class="carousel-caption">
+                            <h3 style="color:aliceblue">Hight Quality</h3>
+                            <p>Pro Gamer Offer High quality produts.</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <img src="~/Images/f.jpg" alt="Image">
+                        <div style="        background-color: limegreen;" class="carousel-caption">
+                            <h3 style="color:aliceblue">Best Prices</h3>
+                            <p>Pro Gamer offer Best prices and discounted rates.</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="~/Images/x.jpg" alt="Image">
+                        <div style="        background-color: limegreen;" class="carousel-caption">
+                            <h3 style="color:aliceblue">Discounted Deals</h3>
+                            <p>Pro Gamer offer best and valuable deals.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<br>
+<br>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Search:", new { @class = "control-label col-md-2" })
+
+            <div class="col-md-8">
+
+
+
+                @Html.TextBox("SearchCategory", null, new { @class = " form-control ", placeholder = "Search Products... e.g All", style = "max-width:100%;", required = "true" })
+
+                <div class="text-center">
+                    Search By: @Html.RadioButton("option", "Name") <text>Name</text> @Html.RadioButton("option", "Price") <text> Price </text>
+                    @Html.RadioButton("option", "Category")<text>Category</text>                   @Html.RadioButton("option", "All")<text>All</text>
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success btn-circle" style="background-color: limegreen; color: white; background-image: linear-gradient(lime,black);">
+                    <i class="fa fa-search"></i>
+                    Search
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+}
+<br />
+<br />
+<div class="container">
+    <div class="row">
+
+
+        @foreach (var item in Model.ListA)
+        {
+
+
+            <div class="col-sm-4">
+
+                <div class="ProductId" style="background-color:black;" class="panel panel-primary">
+                    <div style="background-color: green; background-image: linear-gradient(green,black);" class="panel-heading">
+                        <span style="color:white;">
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </span>
+                        <div class="alert alert-success">
+
+                            @Html.DisplayFor(modelItem => item.Subcategory.SubcategoryName)
+                        </div>
+                    </div>
+                    <div class="panel-body">
+
+
+                        <img src="~/images/@item.ImagePath" class="img-responsive" style="width:100%; height: 200px" alt="Image">
+                    </div>
+                    <div style="background-color:darkslategrey;" class="panel-footer">
+                        <label><b>Product Price:</b></label>
+                        <img src="~/Images/pk.png" width="20" height="10" /> PKR  @Html.DisplayFor(modelItem => item.UnitPrice)
+
+
+
+                        @Html.ActionLink(" View Details", "Details", new { id = item.ProductID }, new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange; background-image: linear-gradient(orange,black);" })
+
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<section style="        background-color: #c8c8c8;
+        color: #2a2929;" class="jumbotron mbr-section form1 cid-qvQfSvxWiS" id="form1-8" data-rv-view="159">
+
+
+
+
+    <div class="align-center container">
+        <div class="row justify-content-center">
+            <div class="title col-12 col-lg-8">
+                <h2 class="mbr-section-title align-center  mbr-fonts-style display-2">
+                    CONTACT FORM
+                </h2>
+                <h3 class="mbr-section-subtitle align-center mbr-light mbr-fonts-style display-5">
+                    For Any Queries Feel Free To Contact us!
+                </h3>
+                <br />
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="media-container-column col-lg-8" data-form-type="formoid">
+                <div data-form-alert="" hidden="">Thanks for filling out the form!</div>
+                <br />
+                <br />
+                <form class="mbr-form" action="https://mobirisethemes.com/" method="post" data-form-title="Mobirise Form">
+                    <input type="hidden" data-form-email="true" value="foAAZ1PvVylaHxYQczzYYt+tTWD/7ufXgiZe5MbkmHKj92erQPnAwFxUYXC9pjjnBlz8Lazp2evtZX01Dwvw5/srW/CSHbHFmaMJntLjwTji+vuFy3jyjhgn56aHo1ak">
+                    <div class="row row-sm-offset">
+                        <div class="col-md-4 multi-horizontal" data-for="name">
+                            <div class="form-group">
+                                <label class="form-control-label mbr-fonts-style display-7" for="name-form1-8">Name</label>
+                                <input type="text" class="form-control" name="name" data-form-field="Name" required="" id="name-form1-8">
+                            </div>
+                        </div>
+                        <div class="col-md-4 multi-horizontal" data-for="email">
+                            <div class="form-group">
+                                <label class="form-control-label mbr-fonts-style display-7" for="email-form1-8">Email</label>
+                                <input type="email" class="form-control" name="email" data-form-field="Email" required="" id="email-form1-8">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group" data-for="message">
+                        <label class="form-control-label mbr-fonts-style display-7" for="message-form1-8">Message</label>
+                        <textarea type="text" class="form-control" name="message" rows="7" data-form-field="Message" id="message-form1-8"></textarea>
+                    </div>
+
+                    <span class="input-group-btn">
+                        <button href="" type="submit" class="btn btn-primary btn-block btn-form display-4">SEND FORM</button>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal" id="exampleModal" tabindex="1000" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+</div>
+
+

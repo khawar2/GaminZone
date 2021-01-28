@@ -1,0 +1,207 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+
+</head>
+<body>
+    @if (ViewBag.HideNavBar == null)
+    {
+        <div style="background-color:#32b11e; color:black;" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a style="color:black; font-weight:bold; " class="navbar-brand" href="@Url.Action("Index","Ecommerce")">
+                        Pro Gamers <span><img src="~/Images/Logo.png" width="30" /></span>
+                    </a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a style="color:white;" href="@Url.Action("About" , "Home")">About</a>
+                        </li>
+                        <li>
+                            <a style="color:white;" href="@Url.Action("Contact" , "Ecommerce")">Contact us</a>
+                        </li>
+                        <li>
+                            <a style="color:white;" href="@Url.Action("Work" , "Ecommerce")">How Does it Works</a>
+                        </li>
+
+                        <li class="dropdown">
+                            <a style="color:white;" data-toggle="dropdown" href="#">
+                                Tournaments
+                                <span class="caret">
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="@Url.Action("Tournaments" , "Ecommerce")"><span><i class="fas fa-history"></i></span> Tournament Schedules</a>
+                                        </li>
+
+
+                                    </ul>
+                                </span>
+                            </a>
+
+
+                        </li>
+
+                        <li>
+                            <a style="color:white;" href="@Url.Action("Register","Ecommerce")">
+                                Register
+
+                            </a>
+
+
+                        </li>
+
+                        <li class="dropdown">
+                            <a data-toggle="dropdown" href="#">
+                                <span style="color:white;"> Settings</span>
+                                <span class="caret">
+                                    <ul class="dropdown-menu">
+
+                                        <li>
+
+                                            <a href="@Url.Action("Login" , "Account")"><span><i class="fas fa-female"></i></span>  Sign-in</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("SignOut","Account")"><span><i class="fas fa-sign-out-alt"></i></span>  Sign Out</a>
+                                        </li>
+
+                                        <li class="divider"></li>
+                                        <li>
+                                            <a href="@Url.Action("SignOut" , "Users")"><span><i class="fas fa-bug"></i></span>  Request a Complain</a>
+                                        </li>
+
+
+                                    </ul>
+                                </span>
+                            </a>
+
+
+                        </li>
+
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+    }
+    @RenderBody()
+    @if (ViewBag.HideNavBar == null)
+    {
+        <div class="container body-content">
+            <br />
+            <br />
+            <br />
+
+            @if (ViewBag.HideNavBar == null)
+            {
+
+                if (ViewBag.HideFooter == null)
+                {
+
+                    <footer>
+                        <section style="font-size:20px; background-color:#242424" class="cid-qypAD4Wz7u" id="footer1-k" data-rv-view="429">
+                            <div class="container">
+                                <div class="media-container-row content text-white">
+                                    <div class="col-12 col-md-3">
+                                        <div class="media-wrap">
+                                            <a href="">
+                                                <img src="~/Images/logo.png" alt="progammer" width="100px" title="" media-simple="true">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                                        <h5 class="pb-3">
+                                            Address
+                                        </h5>
+                                        <p class="mbr-text">
+                                            1234 Street Name
+                                            <br>City, AA 99999
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                                        <h5 class="pb-3">
+                                            Contacts
+                                        </h5>
+                                        <p class="mbr-text">
+                                            Email: support@progamer.com
+                                            <br>Phone: +1 (0) 000 0000 001
+                                            <br>Fax: +1 (0) 000 0000 002
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                                        <h5 class="pb-3">
+                                            Links
+                                        </h5>
+                                        <p class="mbr-text">
+
+                                            <br>About
+                                            <br>Contact
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                                        <span>
+                                            <i style="color:dodgerblue;" class="fab fa-twitter-square fa-2x"></i>
+                                        </span>
+                                        <span>
+                                            <i style="color:blue;" class="fab fa-facebook-square fa-2x"></i>
+                                        </span>
+                                        <span>
+                                            <i style="color:deeppink;" class="fab fa-instagram-square fa-2x"></i>
+                                        </span>
+                                        <span>
+                                            <i style="color:deepskyblue;" class="fab fa-linkedin fa-2x"></i>
+                                        </span>
+                                        <span>
+                                            <i style="color:red;" class="fab fa-youtube-square fa-2x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="footer-lower">
+                                    <div class="media-container-row">
+                                        <div class="col-sm-12">
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="media-container-row mbr-white">
+                                        <div class="col-sm-6 copyright">
+                                            <p class="mbr-text mbr-fonts-style display-7">
+                                                &copy; @DateTime.Now.Year - Pro Gamers
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </footer>
+                }
+            }
+        </div>
+
+    }
+    @*<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+        <script src="~/Scripts/bootstrap.min.js"></script>
+
+        @RenderSection("Scripts", false)*@
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

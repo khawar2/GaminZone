@@ -1,0 +1,335 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+
+    ViewBag.HideNavBar = true;
+}
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pro Gamer</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+    <!-- BOOTSTRAP STYLES-->
+    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLES-->
+    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- MORRIS CHART STYLES-->
+    <link href="~/Content/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
+    <!-- CUSTOM STYLES-->
+    <link href="~/Content/assets/css/custom.css" rel="stylesheet" />
+    <!-- GOOGLE FONTS-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" rel="stylesheet" />
+    <link href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css" rel="stylesheet" media="print" />
+
+
+
+    @section Scripts{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                var events = [];
+                $.ajax({
+                    type: "GET",
+                    url: "/Events/GetEvents",
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            events.push({
+                                title: v.Subject,
+                                description: v.Description,
+                                start: moment(v.Start),
+                                end: v.End != null ? moment(v.End) : null,
+                                color: v.ThemeColor,
+                                allDay: v.IsFullDay
+                            });
+                        })
+
+                        GenerateCalender(events);
+                    },
+
+                })
+
+                function GenerateCalender(events) {
+                    $('#calender').fullCalendar('destroy');
+                    $('#calender').fullCalendar({
+                        contentHeight: 400,
+                        defaultDate: new Date(),
+                        timeFormat: 'h(:mm)a',
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,basicWeek,basicDay,agenda'
+                        },
+                        eventLimit: true,
+                        eventColor: '#378006',
+                        events: events,
+                        eventClick: function (calEvent, jsEvent, view) {
+                            $('#myModal #eventTitle').text(calEvent.title);
+                            var $description = $('<div/>');
+                            $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                            if (calEvent.end != null) {
+                                $description.append($('<p/>').html('<b>End:</b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                            }
+                            $description.append($('<p/>').html('<b>Description:</b>' + calEvent.description));
+                            $('#myModal #pDetails').empty().html($description);
+
+                            $('#myModal').modal();
+                        }
+                    })
+                }
+            })
+        </script>
+    }
+    <style>
+
+        .modal-body {
+            color: red;
+            background-color: black;
+        }
+
+        .modal-title {
+            color: red;
+        }
+
+        #calender {
+            background-color: white;
+            color: black;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html"><img src="~/Images/logo.png" width="50" /> Pro Gamer</a>
+            </div>
+            <div style="color: white;
+padding: 15px 50px 5px 50px;
+float: right;
+font-size: 16px;"><a href="@Url.Action("SignOut","Account")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success square-btn-adjust">Logout</a></div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li class="text-center">
+                        <img src="~/Images/logo.png" class="user-image img-responsive" />
+                    </li>
+
+
+                    <li>
+                        @Html.ActionLink(" Dashboard", "Index", "Dashboard", new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
+                    </li>
+                    <li>
+                        @Html.ActionLink("  Add Solo & Teams", "Register", "Account", null, new { @class = " fa fa-desktop fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("  Add Category", "Create", "Categories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("  Add SubCategory", "Create", "SubCategories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("  Add Products", "Create", "Products", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("   Category", "Index", "Categories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("   SubCategory", "Index", "SubCategories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("   Teams Info", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("   Players Info", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
+
+                    </li>
+                    <li>
+
+                        @Html.ActionLink("  Teams Requests", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+
+                    </li>
+                    <li>
+                        @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
+
+                    </li>
+                    <li>
+                        @Html.ActionLink(" Manage Tournaments", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+
+                    </li>
+                    <li>
+                        @Html.ActionLink(" Create Tournaments", "Create", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+
+                    </li>
+                    <li>
+                        @Html.ActionLink(" Commission", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="#">Profile</a>
+                            </li>
+                            <li>
+                                <a href="#">Annoucements</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2> <img src="~/Images/logo.png" width="50" />Dashboard</h2>
+                        <h5>  Welcome<span style="color:lime"> @WebSecurity.CurrentUserName</span>  , Love to see you back. </h5>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                <hr />
+
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-green set-icon">
+                                <i class="fa fa-envelope-o"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text"></p>
+                                <p class="text-muted">Players Requests</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-green set-icon">
+                                <i class="fa fa-bars"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text"></p>
+                                <p class="text-muted">Complaints</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-green set-icon">
+                                <i class="fa fa-bell-o"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text"></p>
+                                <p class="text-muted">Queries</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-green set-icon">
+                                <i class="fa fa-rocket"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text"></p>
+                                <p class="text-muted">players</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                <hr />
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Form Elements -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Tournaments
+                            </div>
+                            <div style="color:white; background-color:#222323" class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div id="calender"></div>
+
+                                        <div id="myModal" class="modal fade" role="dialog">
+
+
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p id="pDetails"></p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- /. ROW  -->
+                <!-- /. ROW  -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
+    <!-- JQUERY SCRIPTS -->
+    <script src="~/Content/assets/js/jquery-1.10.2.js"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="~/Content/assets/js/bootstrap.min.js"></script>
+    <!-- METISMENU SCRIPTS -->
+    <script src="~/Content/assets/js/jquery.metisMenu.js"></script>
+    <!-- MORRIS CHART SCRIPTS -->
+    <script src="~/Content/assets/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="~/Content/assets/js/morris/morris.js"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="~/Content/assets/js/custom.js"></script>
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+</body>
+</html>
+
+
+

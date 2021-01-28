@@ -1,0 +1,97 @@
+﻿@model GamingZone.ViewModels.Login
+
+@{
+    ViewBag.Title = "Login";
+    ViewBag.HideFooter = true;
+}
+
+<style>
+    body {
+        background-color: rgba(61, 64, 61, 0.93);
+        background-image: url('../../Images/background.png');
+        color: white;
+        width:100%;
+    }
+
+    #hide {
+        font-family: 'Comic Sans MS','Segoe UI', Tahoma, Geneva, Verdana;
+        font-weight: bold;
+        color: #808080;
+    }
+</style>
+
+<br />
+<br />
+<div class="container">
+    <div style=" height:230px;"
+         class="text-center">
+        <h2>
+            Join an army of Gamers
+            <br />
+            <span style="font-size:20px;" id="hide">
+                We help in arrange National and International level of gaming tournaments
+            </span>
+        </h2>
+        <img src="~/Images/logo.png" />
+    </div>
+
+
+    <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-12 col-sm-offset-2">
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Sign In</div>
+                <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
+            </div>
+
+            <div style="padding-top:30px" class="panel-body">
+                <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                <div class="form-horizontal" role="form">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span style="background-color:limegreen;" class="input-group-addon"><i style="color:black;" class="glyphicon glyphicon-user"></i></span>
+                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter username" } })
+                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        </div>
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span style="background-color:limegreen;" class="input-group-addon"><i style="color:black;" class="fas fa-lock"></i></span>
+                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", placeholder = "Enter Password" } })
+                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="input-group">
+                            <div class="checkbox">
+                                <label>
+                                    @Html.EditorFor(model => model.RememberMe, new { @class = "checkbox form-control" })
+                                    @Html.ValidationMessageFor(model => model.RememberMe, "", new { @class = "text-danger" }) <span style="color:black;">Remember me</span>
+                                </label>
+                            </div>
+                        </div>*@
+                        <div style="margin-top:10px" class="form-group">
+                            <!-- Button -->
+                            <div class="col-sm-12 controls">
+                                <button style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" type="submit" class="btn-block btn btn-success">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    Sign In
+                                </button>
+
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

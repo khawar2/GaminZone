@@ -1,0 +1,135 @@
+﻿@model GamingWebsite.Models.Ecommerce.Product
+@{
+    ViewBag.Title = "Details";
+}
+
+<style>
+    body {
+        font-family: 'Comic Sans MS','Segoe UI', Tahoma, Geneva, Verdana;
+        background-color: #2a2929;
+        color: white;
+    }
+
+    .title-attr {
+        font-size: 25px;
+    }
+
+    .title-price {
+        font-size: 25px;
+        color: limegreen;
+    }
+    .name {
+        font-size: 15px;
+        font-weight: 300;
+        color: white;
+        text-decoration: none;
+    }
+
+
+</style>
+<div class="text-center" style="background-color:#c8c8c8; color:black;">
+    <p style="font-size:20px;">
+        Welcome <span style="color:#188e13; font-weight:bold;">
+            @WebSecurity.CurrentUserName
+        </span> To ProGamers Store
+
+
+    </p>
+</div>
+<br />
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-3">
+
+                    </div>
+               
+        <div class="col-md-9">
+            <div>
+
+                @using (Html.BeginForm())
+                {
+
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="col-xs-4 item-photo">
+                        <img style="max-width:100%;" id="image" src="~/images/@Html.DisplayFor(model => model.ImagePath)" />
+                    </div>
+                    <div class="col-xs-5" style="border:0px solid gray">
+                        <!-- Datos del vendedor y titulo del producto -->
+                        <h3>
+                            <span id="productName">
+
+
+                                @Html.DisplayFor(model => model.ProductName)
+                            </span>
+                        </h3>
+
+
+                        <!-- Precios -->
+                        <h6 class="title-price"><small>ProGamer Offer</small></h6>
+                        <h3 style="margin-top:0px;">
+                            PKR
+                            <span id="Price">
+                                @Html.DisplayFor(model => model.UnitPrice)
+                            </span>
+
+                        </h3>
+
+                        <!-- Detalles especificos del producto -->
+                        <div class="section">
+                            <h6 class="title-attr" style="margin-top:15px;"><small>Discription</small></h6>
+                            <div>
+                                @Html.DisplayFor(model => model.Description)
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="section" style="padding-bottom:20px;">
+                            <h6 class="title-attr"><small> Product Posted @Html.DisplayNameFor(model => model.Date)</small></h6>
+                            <div>
+                                @Html.DisplayFor(model => model.Date)
+                            </div>
+                        </div>
+
+                        <div class="section" style="padding-bottom:20px;">
+                            <h6 class="title-attr"><small> @Html.DisplayNameFor(model => model.Subcategory.SubcategoryName)</small></h6>
+                            <div>
+                                @Html.DisplayFor(model => model.Subcategory.SubcategoryName)
+
+                                <span id="ProdId">
+                                    @Html.HiddenFor(model => model.ProductID)
+                                </span>
+
+
+                            </div>
+                        </div>
+                        <!-- Botones de compra -->
+                        <div class="section" style="padding-bottom:20px;">
+
+                            <label class="label label-danger" style="font-size:20px;">Quantity</label>
+                            <input value="1" type="number" name="qty" id="qty" class="form-control" />
+                            <br />
+                            <button type="submit" class="btn btn-danger fa fa-shopping-cart">
+                                Proceed to Cart
+                            </button>
+
+
+                        </div>
+                    </div>
+
+
+                }
+                </div>
+
+        </div>
+    </div>
+
+</div>
+
+<br />
+<br />
+
