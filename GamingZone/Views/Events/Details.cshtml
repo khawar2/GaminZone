@@ -4,47 +4,67 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form Elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Event Details
+            </div>
+            <div style="color:white; background-color:#222323" class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--Div End-->
 
-<div>
-    <h4>Event</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Subject)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Subject)
-        </dd>
+                        <div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                            <dl class="dl-horizontal">
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Subject)
+                                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Subject)
+                                </dd>
+                                <br />
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Description)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.StartDate)
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.StartDate)
+                                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.EndDate)
+                                </dt>
 
-    </dl>
+                                <dd>
+                                    @Html.DisplayFor(model => model.EndDate)
+                                </dd>
+
+                            </dl>
+                        </div>
+                        <p>
+                            @Html.ActionLink(" Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary fas fa-edit", style = "background-color: blue;  background-image: linear-gradient(blue,black);" })
+                            @Html.ActionLink(" Back to Event List", "Index", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })
+                        </p>
+                        <!--Code End-->
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Form Elements -->
+        </div>
+    </div>
+
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

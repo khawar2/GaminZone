@@ -4,68 +4,88 @@
     ViewBag.Title = "Events";
 }
 
-<h2>Events</h2>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form Elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Events
+            </div>
+            <div style="color:white; background-color:#222323" class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--Div End-->
+                        @*@using (Html.BeginForm())
+                        {
+
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    @Html.Label("Search:", new { @class = "control-label col-md-2" })
+
+                                    <div class="col-md-8">
 
 
-<p>
-    @Html.ActionLink("Create New", "Create", new { htmlAttributes = new { @class = "btn btn-sm btn-success" } })
-</p>
+                                        @Html.TextBox("SearchCategory", null, new { @class = " form-control ", placeholder = "Search Categories...", style = " max-width:100%;" })
 
-<table class="table table-bordered"  id="eventTable"   style="width:100%">
-    <tbody>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Subject)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th></th>
-        </tr>
-    </tbody>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary" style="background-color: purple; color: white; background-image: linear-gradient(purple,black);">
+                                            <i class="fa fa-search"></i>
+                                            Search
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndDate)
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })*@
-                    <a class="btn btn-sm btn-info" href=@Url.Action("Edit", "Events") ?id=@item.Id>Edit</a>
-                    <a class="btn btn-sm btn-warning" href=@Url.Action("Details", "Events") ?id=@item.Id>Details</a>
-                    <a class="btn btn-sm btn-danger" href=@Url.Action("Delete", "Events") ?id=@item.Id>Edit</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                        </button>
 
 
-@*@section Scripts{
-    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#eventTable').DataTable();
-        });
-    </script>
-}*@
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        }*@
+                        <p>
+                            @Html.ActionLink(" Create New Event", "Create", "", new { @class = "btn btn-success far fa-plus-square", style = "background-color: #0d973e; background-image: linear-gradient(#0d973e,black);" })
+                        </p>
+                        <br />
+
+                        <table class="table table-bordered " id="dataTables-example">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Subject)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Subject)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary fas fa-edit" })
+                                        @Html.ActionLink(" Details", "Details", new { id = item.Id }, new { @class = "btn btn-warning far fa-list-alt" })
+                                        @Html.ActionLink(" Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger far fa-trash-alt" })
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                        <!--Code End-->
+                    </div>
+                </div>
+            </div>
+            <!-- End Form Elements -->
+        </div>
+    </div>
+
+</div>
