@@ -69,7 +69,7 @@ namespace GamingZone.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool isExisted = db.Users.Where(m => m.Email == register.UserName).Any();
+                bool isExisted = db.Users.Where(m => m.Email == register.email).Any();
                 if (isExisted)
                 {
                     ModelState.AddModelError("UserName", "User Name Already Exits");
