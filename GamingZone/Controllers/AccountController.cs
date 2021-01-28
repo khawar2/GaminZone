@@ -14,6 +14,10 @@ namespace GamingZone.Controllers
         // GET: Account
         public ActionResult Login()
         {
+            if(Session["Role"]!=null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -64,7 +68,6 @@ namespace GamingZone.Controllers
 
 
         [HttpPost]
-        [Authorize]
         public ActionResult Register(Register register)
         {
             if (ModelState.IsValid)
@@ -76,27 +79,18 @@ namespace GamingZone.Controllers
                 }
                 else
                 {
-                 
-                    return RedirectToAction("Index", "Dashboard");
+                    User user = new User();
+                    user.Email = register.email;
+                    user.Password = register.Password;
+                    user.FirstName = register.firstname;
+                    user.LastName = register.lastname;
+                    user.Role = register.Role;
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Login", "Account");
                 }
             }
             return View();
         }
-
-        //private ActionResult GetRolesForCurrentUser()
-        //{
-        //    if (Roles.IsUserInRole(WebSecurity.CurrentUserName, "Administrator"))
-        //        ViewBag.RoleId = (int)Role.Administrator;
-        //    else
-        //        ViewBag.RoleId = (int)Role.NoRole;
-        //    return View();
-        //}
-
-
-
-
-
-
-
     }
 }
