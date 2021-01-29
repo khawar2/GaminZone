@@ -129,8 +129,7 @@ namespace GamingZone.Services
 
             if (result.Succeeded)
             {
-                order.TransactionId = "fg5h6j7k8khjk0p0p90ij9ji9u9jnp";
-                    //result.TransactionId;
+                order.TransactionId = result.TransactionId;
                 _db.Orders.Add(order);
                 _db.CartItems.RemoveRange(items);
                 await _db.SaveChangesAsync();
