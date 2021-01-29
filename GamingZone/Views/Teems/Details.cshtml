@@ -1,0 +1,65 @@
+﻿@model GamingZone.Models.Team
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form Elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Team Details
+            </div>
+            <div style="color:white; background-color:#222323" class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <div>
+
+                            <dl class="dl-horizontal">
+                                <dt style="text-align:center">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Name)
+                                </dd>
+                                <br />
+                                <dt style="text-align:center">
+                                    @Html.DisplayNameFor(model => model.NoOfPlayers)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.NoOfPlayers)
+                                </dd>
+                                <br />
+                                <dt style="text-align:center">
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Description)
+                                </dd>
+                                <dt style="text-align:center">
+                                    @Html.DisplayNameFor(model => model.Event.Subject)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Event.Subject)
+                                </dd>
+
+                            </dl>
+                        </div>
+                        <p>
+                            @Html.ActionLink(" Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary fas fa-edit", style = "background-color: blue;  background-image: linear-gradient(blue,black);" })
+                            @Html.ActionLink(" Back to Teams", "Index", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Form Elements -->
+        </div>
+    </div>
+
+</div>

@@ -134,6 +134,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SubCategoriesController.cs" />
+    <Compile Include="Controllers\TeemsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -351,6 +352,11 @@
     <Content Include="Views\SubCategories\Details.cshtml" />
     <Content Include="Views\SubCategories\Edit.cshtml" />
     <Content Include="Views\SubCategories\Index.cshtml" />
+    <Content Include="Views\Teems\Create.cshtml" />
+    <Content Include="Views\Teems\Delete.cshtml" />
+    <Content Include="Views\Teems\Details.cshtml" />
+    <Content Include="Views\Teems\Edit.cshtml" />
+    <Content Include="Views\Teems\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
