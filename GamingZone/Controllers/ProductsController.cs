@@ -158,6 +158,11 @@ namespace GamingZone.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public ActionResult Store()
+        {
+            var products = db.Products.Include(p => p.SubCategory);
+            return View(products.ToList());
+        }
 
         protected override void Dispose(bool disposing)
         {
