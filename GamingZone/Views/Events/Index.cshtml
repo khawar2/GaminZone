@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<GamingZone.Models.Event>
-
+@using GamingZone.Helper
 @{
     ViewBag.Title = "Events";
 }
@@ -16,36 +16,36 @@
                     <div class="col-md-12">
                         <!--Div End-->
                         @*@using (Html.BeginForm())
-                        {
+                            {
 
-                            @Html.AntiForgeryToken()
+                                @Html.AntiForgeryToken()
 
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    @Html.Label("Search:", new { @class = "control-label col-md-2" })
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        @Html.Label("Search:", new { @class = "control-label col-md-2" })
 
-                                    <div class="col-md-8">
+                                        <div class="col-md-8">
 
 
-                                        @Html.TextBox("SearchCategory", null, new { @class = " form-control ", placeholder = "Search Categories...", style = " max-width:100%;" })
+                                            @Html.TextBox("SearchCategory", null, new { @class = " form-control ", placeholder = "Search Categories...", style = " max-width:100%;" })
 
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary" style="background-color: purple; color: white; background-image: linear-gradient(purple,black);">
-                                            <i class="fa fa-search"></i>
-                                            Search
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="submit" class="btn btn-primary" style="background-color: purple; color: white; background-image: linear-gradient(purple,black);">
+                                                <i class="fa fa-search"></i>
+                                                Search
 
-                                        </button>
+                                            </button>
 
+
+                                        </div>
 
                                     </div>
 
                                 </div>
 
-                            </div>
 
-
-                        }*@
+                            }*@
                         <p>
                             @Html.ActionLink(" Create New Event", "Create", "", new { @class = "btn btn-success far fa-plus-square", style = "background-color: #0d973e; background-image: linear-gradient(#0d973e,black);" })
                         </p>
@@ -59,6 +59,15 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.Description)
                                 </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Start)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.End)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
                                 <th></th>
                             </tr>
 
@@ -70,6 +79,15 @@
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @item.Start.Value.Date.ToShortTimeString()
+                                    </td>
+                                    <td>
+                                        @item.End.Value.Date.ToShortTimeString()
+                                    </td>
+                                    <td>
+                                        @RelativeDate.ToDate(item.Date)
                                     </td>
                                     <td>
                                         @Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary fas fa-edit" })

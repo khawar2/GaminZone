@@ -1,227 +1,68 @@
-﻿@model GamingWebsite.Models.Ecommerce.SubCategory
+﻿@model GamingZone.Models.SubCategory
 
 @{
     ViewBag.Title = "Create";
-    Layout = null;
 }
-
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Friends Corner CRM System</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
-    <!-- BOOTSTRAP STYLES-->
-    <link href="~/Content/assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
-    <link href="~/Content/assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- MORRIS CHART STYLES-->
-    <link href="~/Content/assets/js/morris/morris-0.4.3.min.css" rel="stylesheet" />
-    <!-- CUSTOM STYLES-->
-    <link href="~/Content/assets/css/custom.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
-</head>
-<body>
-    <div id="wrapper">
-        <nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html"><img src="~/Images/logo.png" width="50" /> Pro Gamer</a>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form Elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Create SubCategories
             </div>
-            <div style="color: white;
-padding: 15px 50px 5px 50px;
-float: right;
-font-size: 16px;"> <a href="@Url.Action("SignOut","Account")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success square-btn-adjust">Logout</a> </div>
-        </nav>
-        <!-- /. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                    <li class="text-center">
-                        <img src="~/Images/logo.png" class="user-image img-responsive" />
-                    </li>
-
-
-                    <li>
-                        @Html.ActionLink(" Dashboard", "Index", "Dashboard", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add Solo & Teams", "Register", "Account", null, new { @class = " fa fa-desktop fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add Category", "Create", "Categories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add SubCategory", "Create", "SubCategories", new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Add Products", "Create", "Products", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Category", "Index", "Categories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   SubCategory", "Index", "SubCategories", new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Teams Info", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Players Info", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
-
-                    </li>
-                    <li>
-
-                        @Html.ActionLink("  Teams Requests", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
-
-                    </li>
-                    <li>
-                        @Html.ActionLink(" Manage Schedules", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-
-                    </li>
-                    <li>
-                        @Html.ActionLink(" Create Schedules", "Create", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-
-                    </li>
-                    <li>
-                        @Html.ActionLink(" Commission", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-
-                    </li>
-
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Profile</a>
-                            </li>
-                            <li>
-                                <a href="#">Annoucements</a>
-                            </li>
-
-                        </ul>
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </nav>
-        <!-- /. NAV SIDE  -->
-        <div id="page-wrapper">
-            <div id="page-inner">
+            <div style="color:white; background-color:#222323" class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <h2> <img src="~/Images/logo.png" width="50" />Dashboard</h2>
-                        <h5>  Welcome<span style="color:lime"> @WebSecurity.CurrentUserName</span>  , Love to see you back. </h5>
-                    </div>
-                </div>
-                <!-- /. ROW  -->
-                <hr />
-                <div class="row">
-                    <div class="col-md-12">
-                        <!-- Form Elements -->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Create SubCategories
-                            </div>
-                            <div style="color:white; background-color:#222323" class="panel-body">
-                                <div class="row">
-                                    <div class="col-md-12">
 
-                                        @using (Html.BeginForm())
-                                        {
-                                            @Html.AntiForgeryToken()
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-                                            <div class="form-horizontal">
+                            <div class="form-horizontal">
 
-                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.SubcategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.SubcategoryName, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.SubcategoryName, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SubcategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.SubcategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.SubcategoryName, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                                                <div class="form-group">
-                                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                    <div class="col-md-10">
-                                                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
 
-                                                <div class="form-group">
-                                                    <label class="control-label col-md-2">Category Name</label>
-                                                    <div class="col-md-10">
-                                                        @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
-                                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <div class="col-md-offset-2 col-md-10">
-                                                        <button style=" background-color: green;  background-image: linear-gradient(#0d973e,black);" id="button" type="submit" value="Add Categories" class="btn btn-success">
-                                                            <i class="far fa-plus-square"></i>
-
-                                                            Add SubCategory
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-
-
-                                        <br />
-                                        <br />
-
-                                        <div>
-                                            @Html.ActionLink(" Back to subcategories", "Index", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })
-                                        </div>
-
-
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">Category Name</label>
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button style=" background-color: green;  background-image: linear-gradient(#0d973e,black);" id="button" type="submit" value="Add Categories" class="btn btn-success">
+                                            <i class="far fa-plus-square"></i>
+                                            Add SubCategory
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Form Elements -->
+                        }
+                        <br />
+                        <br />
+                        <div>
+                            @Html.ActionLink(" Back to subcategories", "Index", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })
                         </div>
                     </div>
-
                 </div>
-                <!-- /. PAGE INNER  -->
             </div>
-            <!-- /. PAGE WRAPPER  -->
+            <!-- End Form Elements -->
         </div>
-
-
     </div>
-
-    <!-- JQUERY SCRIPTS -->
-    <script src="~/Content/assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS -->
-    <script src="~/Content/assets/js/bootstrap.min.js"></script>
-    <!-- METISMENU SCRIPTS -->
-    <script src="~/Content/assets/js/jquery.metisMenu.js"></script>
-    <!-- MORRIS CHART SCRIPTS -->
-    <script src="~/Content/assets/js/morris/raphael-2.1.0.min.js"></script>
-    <script src="~/Content/assets/js/morris/morris.js"></script>
-    <!-- CUSTOM SCRIPTS -->
-    <script src="~/Content/assets/js/custom.js"></script>
-
-    <script src="~/Scripts/alertify/alertify.js"></script>
-    <script src="~/Scripts/alertify/alertify.min.js"></script>
+</div>

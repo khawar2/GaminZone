@@ -1,7 +1,6 @@
 ﻿
 @{
     ViewBag.Title = "Register";
-    Layout = null;
 }
 
 
@@ -58,17 +57,17 @@ font-size: 16px;"><a href="@Url.Action("SignOut","Account")" style=" background-
                         @Html.ActionLink(" Dashboard", "Index", "Home", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
                     </li>
                     @*<li>
-                            @Html.ActionLink("  Add Solo & Teams", "Register", "Account", null, new { @class = " fa fa-desktop fa-2x", style = " font-size: 20px" })
-                        </li>*@
+            @Html.ActionLink("  Add Solo & Teams", "Register", "Account", null, new { @class = " fa fa-desktop fa-2x", style = " font-size: 20px" })
+        </li>*@
                     @*<li>
-                            @Html.ActionLink("  Add Category", "Create", "Categories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("  Add SubCategory", "Create", "SubCategories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                        </li>
-                        <li>
-                            @Html.ActionLink("  Add Products", "Create", "Products", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-                        </li>*@
+            @Html.ActionLink("  Add Category", "Create", "Categories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
+        </li>
+        <li>
+            @Html.ActionLink("  Add SubCategory", "Create", "SubCategories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
+        </li>
+        <li>
+            @Html.ActionLink("  Add Products", "Create", "Products", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
+        </li>*@
 
                     <li>
                         @Html.ActionLink("Schedules / Events", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
@@ -89,20 +88,20 @@ font-size: 16px;"><a href="@Url.Action("SignOut","Account")" style=" background-
                         @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
 
                     </li>
-                    <li>
+                    @*<li>
                         @Html.ActionLink(" Manage Schedules", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
-                    </li>
-
-                    <li>
-                        @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
+                    </li>*@
                     <li>
                         @Html.ActionLink("   Category", "Index", "Categories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
                     </li>
                     <li>
                         @Html.ActionLink("   SubCategory", "Index", "SubCategories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
                     </li>
+                    <li>
+                        @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                    </li>
+
                     <li>
                         @Html.ActionLink(" Commission", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 

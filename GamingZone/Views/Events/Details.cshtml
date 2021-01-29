@@ -1,5 +1,5 @@
 ﻿@model GamingZone.Models.Event
-
+@using GamingZone.Helper
 @{
     ViewBag.Title = "Details";
 }
@@ -36,24 +36,28 @@
                                     @Html.DisplayFor(model => model.Description)
                                 </dd>
 
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.StartDate)
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Start)
                                 </dt>
 
                                 <dd>
-                                    @Html.DisplayFor(model => model.StartDate)
+                                    @Model.Start.Value.Date.ToShortTimeString()
                                 </dd>
-
-                                <dt>
-                                    @Html.DisplayNameFor(model => model.EndDate)
+                                <dt style="text-align:center;">
+                                @Html.DisplayNameFor(model => model.End)
                                 </dt>
 
                                 <dd>
-                                    @Html.DisplayFor(model => model.EndDate)
+                                    @Model.End.Value.Date.ToShortTimeString()
                                 </dd>
+                                <dt style="text-align:center;">
+                                @Html.DisplayNameFor(model => model.Date)
+                                </dt>
 
-                            </dl>
-                        </div>
+                                <dd>
+                                    @RelativeDate.ToDate(Model.Date)
+                                </dd>
+</div>
                         <p>
                             @Html.ActionLink(" Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary fas fa-edit", style = "background-color: blue;  background-image: linear-gradient(blue,black);" })
                             @Html.ActionLink(" Back to Event List", "Index", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })

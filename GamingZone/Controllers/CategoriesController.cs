@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamingZone.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,15 +7,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using GamingWebsite.Models.Ecommerce;
-using GamingWebsite.Models.Ecommerce.Database_Model_Initialize;
 
-namespace GamingWebsite.Controllers
+namespace GamingZone.Controllers
 {
-    [Authorize]
     public class CategoriesController : Controller
     {
-        private GamingContext db = new GamingContext();
+        private GamingZoneEntities db = new GamingZoneEntities();
 
         // GET: Categories
         public ActionResult Index()
@@ -120,7 +118,7 @@ namespace GamingWebsite.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
-            var subcate = db.subCategories.Where(c => c.CategoryID == category.CategoryID).ToList();
+            var subcate = db.SubCategories.Where(c => c.CategoryID == category.CategoryID).ToList();
             if (subcate != null)
             {
                 TempData["Delete"] = "Subcategory to this category exsits!";

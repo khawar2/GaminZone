@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamingZone.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -7,16 +8,16 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-namespace GamingWebsite.Controllers
+namespace GamingZone.Controllers
 {
     public class ProductsController : Controller
     {
-        private GamingContext db = new GamingContext();
+        private GamingZoneEntities db = new GamingZoneEntities();
 
         // GET: Products
         public ActionResult Index()
         {
-            var products = db.Products.Include(p => p.Subcategory);
+            var products = db.Products.Include(p => p.SubCategory);
             return View(products.ToList());
         }
 
@@ -35,7 +36,7 @@ namespace GamingWebsite.Controllers
             }
             else if (option == "Category")
             {
-                return View(db.Products.Where(x => x.Subcategory.SubcategoryName == SearchCategory || SearchCategory == null).ToList());
+                return View(db.Products.Where(x => x.SubCategory.SubcategoryName == SearchCategory || SearchCategory == null).ToList());
             }
 
             return View(db.Products.Where(x => x.ProductName == SearchCategory).ToList());
@@ -60,7 +61,7 @@ namespace GamingWebsite.Controllers
         // GET: Products/Create
         public ActionResult Create()
         {
-            ViewBag.SubcategoryID = new SelectList(db.subCategories, "SubcategoryID", "SubcategoryName");
+            ViewBag.SubcategoryID = new SelectList(db.SubCategories, "SubcategoryID", "SubcategoryName");
             return View();
         }
 
@@ -85,7 +86,7 @@ namespace GamingWebsite.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.SubcategoryID = new SelectList(db.subCategories, "SubcategoryID", "SubcategoryName", product.SubcategoryID);
+            ViewBag.SubcategoryID = new SelectList(db.SubCategories, "SubcategoryID", "SubcategoryName", product.SubcategoryID);
             return View(product);
         }
 
@@ -101,7 +102,7 @@ namespace GamingWebsite.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.SubcategoryID = new SelectList(db.subCategories, "SubcategoryID", "SubcategoryName", product.SubcategoryID);
+            ViewBag.SubcategoryID = new SelectList(db.SubCategories, "SubcategoryID", "SubcategoryName", product.SubcategoryID);
             return View(product);
         }
 
@@ -128,7 +129,7 @@ namespace GamingWebsite.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.SubcategoryID = new SelectList(db.subCategories, "SubcategoryID", "SubcategoryName", product.SubcategoryID);
+            ViewBag.SubcategoryID = new SelectList(db.SubCategories, "SubcategoryID", "SubcategoryName", product.SubcategoryID);
             return View(product);
         }
 

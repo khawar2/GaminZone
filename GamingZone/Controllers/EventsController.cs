@@ -46,10 +46,11 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Subject,Description,StartDate,EndDate")] Event @event)
+        public ActionResult Create([Bind(Include = "Id,Subject,Description,Start,End,Date")] Event @event)
         {
             if (ModelState.IsValid)
             {
+                @event.Date = @event.Date.Value.Date;
                 db.Events.Add(@event);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -78,31 +79,18 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Subject,Description,StartDate,EndDate")] Event @event)
+        public ActionResult Edit([Bind(Include = "Id,Subject,Description,Start,End,Date")] Event @event)
         {
             if (ModelState.IsValid)
             {
+                @event.Date = @event.Date.Value.Date;
                 db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(@event);
         }
-
-        // GET: Events/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Event @event = db.Events.Find(id);
-        //    if (@event == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(@event);
-        //}
+        
 
         // POST: Events/Delete/5
         [HttpGet, ActionName("Delete")]

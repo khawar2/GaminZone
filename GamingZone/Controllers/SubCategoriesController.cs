@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamingZone.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -6,21 +7,18 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using GamingWebsite.Models.Ecommerce;
-using GamingWebsite.Models.Ecommerce.Database_Model_Initialize;
 
-namespace GamingWebsite.Controllers
+namespace GamingZone.Controllers
 {
-    [Authorize]
     public class SubCategoriesController : Controller
     {
-        private GamingContext db = new GamingContext();
+        private GamingZoneEntities db = new GamingZoneEntities();
 
         // GET: SubCategories
         public ActionResult Index()
         {
-            var subCategories = db.subCategories.Include(s => s.Category);
-            return View(subCategories.ToList());
+            var SubCategories = db.SubCategories.Include(s => s.Category);
+            return View(SubCategories.ToList());
         }
 
 
@@ -29,7 +27,7 @@ namespace GamingWebsite.Controllers
         {
 
 
-            return View(db.subCategories.Where(x => x.SubcategoryName == SearchSubCategory).ToList());
+            return View(db.SubCategories.Where(x => x.SubcategoryName == SearchSubCategory).ToList());
 
         }
 
@@ -40,7 +38,7 @@ namespace GamingWebsite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubCategory subCategory = db.subCategories.Find(id);
+            SubCategory subCategory = db.SubCategories.Find(id);
             if (subCategory == null)
             {
                 return HttpNotFound();
@@ -64,7 +62,7 @@ namespace GamingWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.subCategories.Add(subCategory);
+                db.SubCategories.Add(subCategory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -80,7 +78,7 @@ namespace GamingWebsite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubCategory subCategory = db.subCategories.Find(id);
+            SubCategory subCategory = db.SubCategories.Find(id);
             if (subCategory == null)
             {
                 return HttpNotFound();
@@ -113,7 +111,7 @@ namespace GamingWebsite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SubCategory subCategory = db.subCategories.Find(id);     
+            SubCategory subCategory = db.SubCategories.Find(id);     
            
             if (subCategory == null)
             {
@@ -127,7 +125,7 @@ namespace GamingWebsite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SubCategory subCategory = db.subCategories.Find(id);
+            SubCategory subCategory = db.SubCategories.Find(id);
             //var subcate = db.Products.Where(c => c.SubcategoryID == subCategory.SubcategoryID).ToList();
             //if (subcate != null)
             //{
@@ -136,7 +134,7 @@ namespace GamingWebsite.Controllers
             //}
             //else
             //{
-           db.subCategories.Remove(subCategory);
+           db.SubCategories.Remove(subCategory);
             db.SaveChanges();
             //}
            
