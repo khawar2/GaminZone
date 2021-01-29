@@ -104,7 +104,6 @@ namespace GamingZone.Services
                 State = model.State,
                 PostalCode = model.PostalCode,
                 Country = model.Country,
-                Phone = model.Phone,
                 Email = model.Email,
                 OrderDate = DateTime.Now
             };
@@ -114,11 +113,11 @@ namespace GamingZone.Services
                 var detail = new OrderDetail()
                 {
                     ProductId = item.ProductId,
-                    UnitPrice = item.Product.UnitPrice,
+                    UnitPrice = (decimal?)item.Product.UnitPrice,
                     Quantity = item.Count
                 };
 
-                order.Total += (item.Product.UnitPrice * item.Count);
+                order.Total += (decimal)((item.Product.UnitPrice * item.Count));
 
                 order.OrderDetails.Add(detail);
             }
@@ -130,7 +129,8 @@ namespace GamingZone.Services
 
             if (result.Succeeded)
             {
-                order.TransactionId = result.TransactionId;
+                order.TransactionId = "fg5h6j7k8khjk0p0p90ij9ji9u9jnp";
+                    //result.TransactionId;
                 _db.Orders.Add(order);
                 _db.CartItems.RemoveRange(items);
                 await _db.SaveChangesAsync();
