@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using GamingZone.Infrastructure;
 using GamingZone.Models;
 
 namespace GamingZone.Controllers
 {
+    [CustomAuthorize("Admin")]
     public class TeemsController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();

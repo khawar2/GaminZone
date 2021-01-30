@@ -1,4 +1,5 @@
-﻿using GamingZone.Models;
+﻿using GamingZone.Infrastructure;
+using GamingZone.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace GamingZone.Controllers
 {
+    [CustomAuthorize("Admin")]
     public class SubCategoriesController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();

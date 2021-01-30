@@ -43,90 +43,123 @@
 padding: 15px 50px 5px 50px;
 float: right;
 font-size: 16px;">
-            <a href="@Url.Action("SignOut","Account")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success square-btn-adjust">Logout</a>
-            <a href="@Url.Action("Index","ShoppingCart")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success fa fa-shopping-cart square-btn-adjust"></a></div>
+                <a href="@Url.Action("SignOut","Account")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success square-btn-adjust">Logout</a>
+                <a href="@Url.Action("Index","ShoppingCart")" style=" background-color: lime; /* For browsers that do not support gradients */ background-image: linear-gradient(lime,black);" class="btn btn-success fa fa-shopping-cart square-btn-adjust"></a>
+            </div>
         </nav>
         <!-- /. NAV TOP  -->
-        <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                    <li class="text-center">
-                        <img src="~/Images/logo.png" class="user-image img-responsive" />
-                    </li>
+        @if (((string)Session["Role"]) == "Admin")
+        {
 
 
-                    <li>
-                        @Html.ActionLink(" Dashboard", "Index", "Home", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
-                    </li>
-                    @*<li>
-            @Html.ActionLink("  Add Solo & Teams", "Register", "Account", null, new { @class = " fa fa-desktop fa-2x", style = " font-size: 20px" })
-        </li>*@
-                    @*<li>
-            @Html.ActionLink("  Add Category", "Create", "Categories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-        </li>
-        <li>
-            @Html.ActionLink("  Add SubCategory", "Create", "SubCategories", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-        </li>
-        <li>
-            @Html.ActionLink("  Add Products", "Create", "Products", null, new { @class = " fas fa-plus-square fa-2x", style = " font-size: 20px" })
-        </li>*@
+            <nav class="navbar-default navbar-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="main-menu">
+                        <li class="text-center">
+                            <img src="~/Images/logo.png" class="user-image img-responsive" />
+                        </li>
 
-                    <li>
-                        @Html.ActionLink("Schedules / Events", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Teams Info", "Index", "Teems", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Players Info", "Index", "Players", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
 
-                    </li>
-                    <li>
+                        <li>
+                            @Html.ActionLink(" Dashboard", "Index", "Home", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
+                        </li>
+                        <li>
+                            @Html.ActionLink("Schedules / Events", "Index", "Events", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("   Teams Info", "Index", "Teems", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("   Players Info", "Index", "Players", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
 
-                        @Html.ActionLink("  Teams Requests", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
 
-                    </li>
-                    <li>
-                        @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
+                            @Html.ActionLink("  Teams Requests", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
-                    </li>
-                    <li>
-                        @Html.ActionLink("User Store", "Store", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
 
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Category", "Index", "Categories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   SubCategory", "Index", "SubCategories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
-                    <li>
-                        @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
-                    </li>
+                        </li>
+                        <li>
+                            @Html.ActionLink("User Store", "Store", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
-                    <li>
-                        @Html.ActionLink(" Commission", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("   Category", "Index", "Categories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("   SubCategory", "Index", "SubCategories", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+                        <li>
+                            @Html.ActionLink("   Products", "Index", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
 
-                    </li>
+                        <li>
+                            @Html.ActionLink(" Commission", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="#">Profile</a>
-                            </li>
-                            <li>
-                                <a href="#">Annoucements</a>
-                            </li>
+                        </li>
 
-                        </ul>
-                    </li>
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#">Annoucements</a>
+                                </li>
 
-                </ul>
+                            </ul>
+                        </li>
 
-            </div>
+                    </ul>
 
-        </nav>
+                </div>
+
+            </nav>
+        }
+
+        @if(((string)Session["Role"]) == "User")
+        {
+            <nav class="navbar-default navbar-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="main-menu">
+                        <li class="text-center">
+                            <img src="~/Images/logo.png" class="user-image img-responsive" />
+                        </li>
+
+
+                        <li>
+                            @Html.ActionLink(" Dashboard", "Index", "Home", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
+                        </li>
+                        
+                        <li>
+                            @Html.ActionLink("User Store", "Store", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+
+                        </li>
+                       
+
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Profile</a>
+                                </li>
+                                <li>
+                                    <a href="#">Annoucements</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </nav>
+        }
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper">
             <div id="page-inner">

@@ -35,13 +35,14 @@ namespace GamingZone.Controllers
                 {
                     if(user.Role=="Admin")
                     {
-                        ViewData["user"] = user.Role;
                         Session["Role"]  = user.Role;
+                        Session["UserId"] = user.Id;
                     }
                     else
                     {
-                        ViewData["user"] = user.Role;
                         Session["Role"] = user.Role;
+                        Session["UserId"] = user.Id;
+
                     }
                     return RedirectToAction("Index", "Home");
                 }
@@ -90,6 +91,13 @@ namespace GamingZone.Controllers
                     return RedirectToAction("Login", "Account");
                 }
             }
+            return View();
+        }
+
+        public ActionResult UnAuthorized()
+        {
+            ViewBag.Message = "Un Authorized Page!";
+
             return View();
         }
     }
