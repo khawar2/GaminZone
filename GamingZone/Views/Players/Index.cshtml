@@ -32,9 +32,7 @@
                                 <th>
                                     Team
                                 </th>
-                                <th>
-                                    User
-                                </th>
+                               
                                 <th></th>
                             </tr>
 
@@ -53,9 +51,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Team.Name)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.User.FirstName)
-                                </td>
+                               
 
                                 <td>
                                     @Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary fas fa-edit" })

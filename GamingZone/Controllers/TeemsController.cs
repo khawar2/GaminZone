@@ -48,6 +48,7 @@ namespace GamingZone.Controllers
         // GET: Teems/Create
         public ActionResult Create()
         {
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
             return View();
         }
@@ -57,7 +58,7 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId")] Team team)
+        public ActionResult Create([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
             if (ModelState.IsValid)
             {
@@ -65,8 +66,8 @@ namespace GamingZone.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.EventId = new SelectList(db.Events, "Id", "Subject", team.EventId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
             return View(team);
         }
 
@@ -82,7 +83,8 @@ namespace GamingZone.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.EventId = new SelectList(db.Events, "Id", "Subject", team.EventId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
             return View(team);
         }
 
@@ -91,7 +93,7 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId")] Team team)
+        public ActionResult Edit([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +101,8 @@ namespace GamingZone.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.EventId = new SelectList(db.Events, "Id", "Subject", team.EventId);
+            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
             return View(team);
         }
 

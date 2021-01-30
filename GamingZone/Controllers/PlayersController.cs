@@ -42,7 +42,6 @@ namespace GamingZone.Controllers
         public ActionResult Create()
         {
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             return View();
         }
 
@@ -51,7 +50,7 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Age,ImagePath,TeamId,UserId")] Player player, HttpPostedFileBase ImagePath)
+        public ActionResult Create([Bind(Include = "Id,Name,Age,ImagePath,TeamId")] Player player, HttpPostedFileBase ImagePath)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +60,8 @@ namespace GamingZone.Controllers
                 {
                     if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
                     {
+
+                        ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
                         ViewBag.error = "Team is full select another";
                         return View(player);
                     }
@@ -79,7 +80,6 @@ namespace GamingZone.Controllers
             }
 
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", player.UserId);
             return View(player);
         }
 
@@ -96,7 +96,6 @@ namespace GamingZone.Controllers
                 return HttpNotFound();
             }
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", player.UserId);
             return View(player);
         }
 
@@ -112,6 +111,8 @@ namespace GamingZone.Controllers
             {
                 if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
                 {
+
+                    ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
                     ViewBag.error = "Team is full select another";
                     return View(player);
                 }
