@@ -55,6 +55,17 @@ namespace GamingZone.Controllers
         {
             if (ModelState.IsValid)
             {
+                var countPlayer = db.Teams.Where(x => x.Id == player.Id).Include(x => x.Players).FirstOrDefault();
+
+                if (countPlayer.Players != null)
+                {
+                    if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
+                    {
+                        ViewBag.error = "Team is full select another";
+                        return View(player);
+                    }
+                }
+
                 if (ImagePath != null)
                 {
                     ImagePath.SaveAs(HttpContext.Server.MapPath("~/Images/")
@@ -96,6 +107,22 @@ namespace GamingZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Age,ImagePath,TeamId,UserId")] Player player, HttpPostedFileBase ImagePath)
         {
+            var countPlayer = db.Teams.Where(x => x.Id == player.Id).Include(x => x.Players).FirstOrDefault();
+            if(countPlayer.Players!=null)
+            {
+                if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
+                {
+                    ViewBag.error = "Team is full select another";
+                    return View(player);
+                }
+            }
+         
+            if (ImagePath != null)
+            {
+                ImagePath.SaveAs(HttpContext.Server.MapPath("~/Images/")
+                                                      + ImagePath.FileName);
+                player.ImagePath = ImagePath.FileName;
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(player).State = EntityState.Modified;
@@ -106,22 +133,8 @@ namespace GamingZone.Controllers
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", player.UserId);
             return View(player);
         }
-
-        // GET: Players/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Player player = db.Players.Find(id);
-            if (player == null)
-            {
-                return HttpNotFound();
-            }
-            return View(player);
-        }
-
+        
+        [HttpGet]
         // POST: Players/Delete/5
         public ActionResult Delete(int id)
         {

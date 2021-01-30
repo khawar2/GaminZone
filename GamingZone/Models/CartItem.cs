@@ -19,6 +19,7 @@ namespace GamingZone.Models
         public Nullable<int> ProductId { get; set; }
         public int Count { get; set; }
         public Nullable<System.DateTime> DateCreated { get; set; }
+        public int UserId { get; set; }
     
         public virtual Product Product { get; set; }
     }

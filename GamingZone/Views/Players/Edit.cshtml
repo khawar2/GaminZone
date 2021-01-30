@@ -11,6 +11,7 @@
     <div class="col-md-12">
         <!-- Form Elements -->
         <div class="panel panel-default">
+            <div class="danger" id="error" style="width:100%">ViewBag.error</div>
             <div class="panel-heading">
                 Update Player
             </div>
@@ -24,57 +25,57 @@
                         {
                             @Html.AntiForgeryToken()
 
-                        <div class="form-horizontal">
+                            <div class="form-horizontal">
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.Age, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.Age, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.TeamId, "Id", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Id", null, "--Select Team--", htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TeamId, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.TeamId, "TeamId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("TeamId", null, "--Select Team--", htmlAttributes: new { @class = "form-control", @required="required"})
+                                        @Html.ValidationMessageFor(model => model.TeamId, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.UserId, "Id", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("Id", null, "--Select User--", htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("UserId", null, "--Select User--", htmlAttributes: new { @class = "form-control", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control", type = "file" } })
-                                    @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control", type = "file", @required = "required" } })
+                                        @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
 
-                            @Html.HiddenFor(model => model.Id)
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <button type="submit" style="background-color: blue; background-image: linear-gradient(blue,black);" class="btn btn-primary">
-                                        <i class="fas fa-edit"></i>Edit Now
-                                    </button>
+                                @Html.HiddenFor(model => model.Id)
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button type="submit" style="background-color: blue; background-image: linear-gradient(blue,black);" class="btn btn-primary">
+                                            <i class="fas fa-edit"></i>Edit Now
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         }
 
                         <br />
@@ -91,3 +92,15 @@
     </div>
 
 </div>
+
+@section Scripts{
+    <script>
+        $(doucument).ready(function () {
+            setTimeout(function () {
+                $('#error').empty();
+            }, 1000); // <-- time in milliseconds
+        });
+
+    </script>
+}
+

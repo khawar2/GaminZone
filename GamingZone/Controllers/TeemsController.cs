@@ -129,6 +129,23 @@ namespace GamingZone.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        [ValidateAntiForgeryToken]
+        public ActionResult IndividualTeam(int id)
+        {
+            Team team = db.Teams.Find(id);
+            db.Teams.Remove(team);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult IndividualTeam()
+        {
+            return RedirectToAction("Index");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

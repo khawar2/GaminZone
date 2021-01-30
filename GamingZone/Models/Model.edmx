@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GamingZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GamingZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CartItem">
           <Key>
             <PropertyRef Name="CartItemId" />
@@ -14,6 +14,7 @@
           <Property Name="ProductId" Type="int" />
           <Property Name="Count" Type="int" Nullable="false" />
           <Property Name="DateCreated" Type="datetime" />
+          <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Categories">
           <Key>
@@ -304,8 +305,7 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GamingZoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -319,6 +319,7 @@
           <Property Name="Count" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Product" Relationship="Self.FK_CartItem_Products" FromRole="CartItem" ToRole="Products" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -637,6 +638,7 @@
           <EntitySetMapping Name="CartItems">
             <EntityTypeMapping TypeName="GamingZoneModel.CartItem">
               <MappingFragment StoreEntitySet="CartItem">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CartItemId" ColumnName="CartItemId" />
                 <ScalarProperty Name="CartId" ColumnName="CartId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />

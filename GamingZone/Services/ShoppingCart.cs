@@ -13,6 +13,7 @@ namespace GamingZone.Services
     {
         private readonly GamingZoneEntities _db;
         private readonly string _cartId;
+        private readonly HttpContextBase _httpContext;
 
         public ShoppingCart(HttpContextBase context) 
             : this(context, new GamingZoneEntities())
@@ -23,6 +24,7 @@ namespace GamingZone.Services
         {
             _db = storeContext;
             _cartId = GetCartId(httpContext);
+            _httpContext = httpContext;
         }
 
         public async Task AddAsync(int productId)
@@ -35,9 +37,10 @@ namespace GamingZone.Services
                 // TODO: throw exception or do something
                 return;
             }
-
+            var userId = Convert.ToString(_httpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
             var cartItem = await _db.CartItems
-                .SingleOrDefaultAsync(c => c.ProductId == productId && c.CartId == _cartId);
+                .SingleOrDefaultAsync(c => c.ProductId == productId && c.CartId == _cartId && c.UserId == id);
 
             if (cartItem != null)
             {
@@ -50,7 +53,8 @@ namespace GamingZone.Services
                     ProductId = productId,
                     CartId = _cartId,
                     Count = 1,
-                    DateCreated = DateTime.Now
+                    DateCreated = DateTime.Now,
+                    UserId = id
                 };
 
                 _db.CartItems.Add(cartItem);
@@ -61,8 +65,10 @@ namespace GamingZone.Services
 
         public async Task<int> RemoveAsync(int productId)
         {
+            var userId = Convert.ToString(_httpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
             var cartItem = await _db.CartItems
-                .SingleOrDefaultAsync(c => c.ProductId == productId && c.CartId == _cartId);
+                .SingleOrDefaultAsync(c => c.ProductId == productId && c.CartId == _cartId && c.UserId==id);
 
             var itemCount = 0;
 
@@ -88,8 +94,10 @@ namespace GamingZone.Services
 
         public async Task<IEnumerable<CartItem>> GetCartItemsAsync()
         {
+            var userId = Convert.ToString(_httpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
             return await _db.CartItems.Include("Product")
-                .Where(c => c.CartId == _cartId).ToArrayAsync();
+                .Where(c => c.CartId == _cartId && c.UserId==id).ToArrayAsync();
         }
 
         public async Task<PaymentResult> CheckoutAsync(CheckoutViewModel model)
