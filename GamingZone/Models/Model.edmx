@@ -70,7 +70,6 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Age" Type="nvarchar(max)" Nullable="false" />
           <Property Name="TeamId" Type="int" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
@@ -115,6 +114,7 @@
           <Property Name="TeamRating" Type="int" />
           <Property Name="Description" Type="nvarchar" MaxLength="200" />
           <Property Name="EventId" Type="int" />
+          <Property Name="UserId" Type="int" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -204,18 +204,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Players_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Players" Type="Self.Players" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Players">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Rating_Players">
           <End Role="Players" Type="Self.Players" Multiplicity="0..1" />
           <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -288,10 +276,6 @@
             <End Role="Teams" EntitySet="Teams" />
             <End Role="Players" EntitySet="Players" />
           </AssociationSet>
-          <AssociationSet Name="FK_Players_Users" Association="Self.FK_Players_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Players" EntitySet="Players" />
-          </AssociationSet>
           <AssociationSet Name="FK_Rating_Players" Association="Self.FK_Rating_Players">
             <End Role="Players" EntitySet="Players" />
             <End Role="Rating" EntitySet="Rating" />
@@ -318,8 +302,8 @@
           <Property Name="ProductId" Type="Int32" />
           <Property Name="Count" Type="Int32" Nullable="false" />
           <Property Name="DateCreated" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_CartItem_Products" FromRole="CartItem" ToRole="Products" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_CartItem_Products" FromRole="CartItem" ToRole="Products" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -380,11 +364,9 @@
           <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Age" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TeamId" Type="Int32" Nullable="false" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Team" Relationship="Self.FK_Players_Teams" FromRole="Players" ToRole="Teams" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Players_Users" FromRole="Players" ToRole="Users" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_Players" FromRole="Players" ToRole="Rating" />
+          <NavigationProperty Name="Team" Relationship="GamingZoneModel.FK_Players_Teams" FromRole="Player" ToRole="Team" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -435,8 +417,9 @@
           <Property Name="TeamRating" Type="Int32" />
           <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="EventId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
           <NavigationProperty Name="Event" Relationship="Self.FK_Teams_Events" FromRole="Teams" ToRole="Events" />
-          <NavigationProperty Name="Players" Relationship="Self.FK_Players_Teams" FromRole="Teams" ToRole="Players" />
+          <NavigationProperty Name="Players" Relationship="GamingZoneModel.FK_Players_Teams" FromRole="Team" ToRole="Player" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -451,7 +434,6 @@
           <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PhonceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Age" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Players" Relationship="Self.FK_Players_Users" FromRole="Users" ToRole="Players" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_Users" FromRole="Users" ToRole="Rating" />
         </EntityType>
         <Association Name="FK_CartItem_Products">
@@ -511,30 +493,6 @@
             </Principal>
             <Dependent Role="OrderDetail">
               <PropertyRef Name="ProductId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Players_Teams">
-          <End Role="Teams" Type="Self.Team" Multiplicity="1" />
-          <End Role="Players" Type="Self.Player" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teams">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Players">
-              <PropertyRef Name="TeamId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Players_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="Players" Type="Self.Player" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Players">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -608,14 +566,6 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_Players_Teams" Association="Self.FK_Players_Teams">
-            <End Role="Teams" EntitySet="Teams" />
-            <End Role="Players" EntitySet="Players" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Players_Users" Association="Self.FK_Players_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Players" EntitySet="Players" />
-          </AssociationSet>
           <AssociationSet Name="FK_Rating_Players" Association="Self.FK_Rating_Players">
             <End Role="Players" EntitySet="Players" />
             <End Role="Rating" EntitySet="Ratings" />
@@ -628,7 +578,23 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
+          <AssociationSet Name="FK_Players_Teams" Association="GamingZoneModel.FK_Players_Teams">
+            <End Role="Team" EntitySet="Teams" />
+            <End Role="Player" EntitySet="Players" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Players_Teams">
+          <End Type="GamingZoneModel.Team" Role="Team" Multiplicity="1" />
+          <End Type="GamingZoneModel.Player" Role="Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Team">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Player">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -638,12 +604,12 @@
           <EntitySetMapping Name="CartItems">
             <EntityTypeMapping TypeName="GamingZoneModel.CartItem">
               <MappingFragment StoreEntitySet="CartItem">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="CartItemId" ColumnName="CartItemId" />
                 <ScalarProperty Name="CartId" ColumnName="CartId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="Count" ColumnName="Count" />
                 <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -704,7 +670,6 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="TeamId" ColumnName="TeamId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -753,6 +718,7 @@
                 <ScalarProperty Name="TeamRating" ColumnName="TeamRating" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

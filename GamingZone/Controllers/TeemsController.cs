@@ -11,7 +11,7 @@ using GamingZone.Models;
 
 namespace GamingZone.Controllers
 {
-    [CustomAuthorize("Admin")]
+    [CustomAuthorize("Admin","User")]
     public class TeemsController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();
@@ -105,22 +105,7 @@ namespace GamingZone.Controllers
             ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
             return View(team);
         }
-
-        // GET: Teems/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Team team = db.Teams.Find(id);
-        //    if (team == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(team);
-        //}
-
+        
         // POST: Teems/Delete/5
         [HttpGet]
         [ValidateAntiForgeryToken]
