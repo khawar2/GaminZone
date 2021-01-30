@@ -44,21 +44,28 @@
                                     @Html.ValidationMessageFor(model => model.NoOfPlayers, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
                             <div class="form-group">
-                                <label class="control-label col-md-2">Category Name</label>
+                                <label class="control-label col-md-2">Event Name</label>
                                 <div class="col-md-10">
                                     @Html.DropDownList("EventId", null, "--Select Event--", htmlAttributes: new { @class = "form-control", @required = "required" })
                                     @Html.ValidationMessageFor(model => model.EventId, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-                                <div class="col-md-10">
-                                    @Html.DropDownList("UserId", null, "--Select User--", htmlAttributes: new { @class = "form-control", @required = "required" })
-                                    @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+
+                            @if (Session["Role"].ToString() == "Admin")
+                            {
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("UserId", null, "--Select User--", htmlAttributes: new { @class = "form-control", @required = "required" })
+                                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
+                            }
+                            @if (Session["Role"].ToString() == "User"){
+                                <input type="hidden" name="UserId" value="@ViewBag.User" />
+                            }
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
                                     <button style=" background-color: green;  background-image: linear-gradient(#0d973e,black);" id="button" type="submit" value="Add Categories" class="btn btn-success">

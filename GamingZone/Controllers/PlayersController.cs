@@ -19,7 +19,7 @@ namespace GamingZone.Controllers
         // GET: Players
         public ActionResult Index()
         {
-            var players = db.Players.Include(p => p.Team).Include(p => p.User);
+            var players = db.Players.Include(p => p.Team);
             return View(players.ToList());
         }
 
@@ -131,7 +131,6 @@ namespace GamingZone.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", player.UserId);
             return View(player);
         }
         

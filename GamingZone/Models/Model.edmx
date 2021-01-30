@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="GamingZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="GamingZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CartItem">
           <Key>
             <PropertyRef Name="CartItemId" />
@@ -103,6 +103,19 @@
           <Property Name="SubcategoryName" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="CategoryID" Type="int" />
+        </EntityType>
+        <EntityType Name="TeamRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NoOfPlayers" Type="int" Nullable="false" />
+          <Property Name="TeamRating" Type="int" />
+          <Property Name="Description" Type="nvarchar" MaxLength="200" />
+          <Property Name="EventId" Type="int" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="isApproved" Type="bit" />
         </EntityType>
         <EntityType Name="Teams">
           <Key>
@@ -250,6 +263,7 @@
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Rating" EntityType="Self.Rating" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamRequest" EntityType="Self.TeamRequest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teams" EntityType="Self.Teams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CartItem_Products" Association="Self.FK_CartItem_Products">
@@ -289,7 +303,8 @@
             <End Role="Teams" EntitySet="Teams" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GamingZoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -365,8 +380,8 @@
           <Property Name="Age" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TeamId" Type="Int32" Nullable="false" />
           <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Team" Relationship="Self.FK_Players_Teams" FromRole="Players" ToRole="Teams" />
           <NavigationProperty Name="Ratings" Relationship="Self.FK_Rating_Players" FromRole="Players" ToRole="Rating" />
-          <NavigationProperty Name="Team" Relationship="GamingZoneModel.FK_Players_Teams" FromRole="Player" ToRole="Team" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -407,6 +422,19 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_dbo_SubCategories_dbo_Categories_CategoryID" FromRole="SubCategories" ToRole="Categories" />
           <NavigationProperty Name="Products" Relationship="Self.FK_dbo_Products_dbo_SubCategories_SubcategoryID" FromRole="SubCategories" ToRole="Products" />
         </EntityType>
+        <EntityType Name="TeamRequest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NoOfPlayers" Type="Int32" Nullable="false" />
+          <Property Name="TeamRating" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EventId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="isApproved" Type="Boolean" />
+        </EntityType>
         <EntityType Name="Team">
           <Key>
             <PropertyRef Name="Id" />
@@ -419,7 +447,7 @@
           <Property Name="EventId" Type="Int32" />
           <Property Name="UserId" Type="Int32" />
           <NavigationProperty Name="Event" Relationship="Self.FK_Teams_Events" FromRole="Teams" ToRole="Events" />
-          <NavigationProperty Name="Players" Relationship="GamingZoneModel.FK_Players_Teams" FromRole="Team" ToRole="Player" />
+          <NavigationProperty Name="Players" Relationship="Self.FK_Players_Teams" FromRole="Teams" ToRole="Players" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -496,6 +524,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Players_Teams">
+          <End Role="Teams" Type="Self.Team" Multiplicity="1" />
+          <End Role="Players" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teams">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="TeamId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Rating_Players">
           <End Role="Players" Type="Self.Player" Multiplicity="0..1" />
           <End Role="Rating" Type="Self.Rating" Multiplicity="*" />
@@ -544,6 +584,7 @@
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="Ratings" EntityType="Self.Rating" />
           <EntitySet Name="SubCategories" EntityType="Self.SubCategory" />
+          <EntitySet Name="TeamRequests" EntityType="Self.TeamRequest" />
           <EntitySet Name="Teams" EntityType="Self.Team" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_CartItem_Products" Association="Self.FK_CartItem_Products">
@@ -566,6 +607,10 @@
             <End Role="Products" EntitySet="Products" />
             <End Role="OrderDetail" EntitySet="OrderDetails" />
           </AssociationSet>
+          <AssociationSet Name="FK_Players_Teams" Association="Self.FK_Players_Teams">
+            <End Role="Teams" EntitySet="Teams" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
           <AssociationSet Name="FK_Rating_Players" Association="Self.FK_Rating_Players">
             <End Role="Players" EntitySet="Players" />
             <End Role="Rating" EntitySet="Ratings" />
@@ -578,23 +623,7 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Rating" EntitySet="Ratings" />
           </AssociationSet>
-          <AssociationSet Name="FK_Players_Teams" Association="GamingZoneModel.FK_Players_Teams">
-            <End Role="Team" EntitySet="Teams" />
-            <End Role="Player" EntitySet="Players" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_Players_Teams">
-          <End Type="GamingZoneModel.Team" Role="Team" Multiplicity="1" />
-          <End Type="GamingZoneModel.Player" Role="Player" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Team">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Player">
-              <PropertyRef Name="TeamId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -706,6 +735,20 @@
                 <ScalarProperty Name="SubcategoryName" ColumnName="SubcategoryName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamRequests">
+            <EntityTypeMapping TypeName="GamingZoneModel.TeamRequest">
+              <MappingFragment StoreEntitySet="TeamRequest">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NoOfPlayers" ColumnName="NoOfPlayers" />
+                <ScalarProperty Name="TeamRating" ColumnName="TeamRating" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="isApproved" ColumnName="isApproved" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

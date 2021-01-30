@@ -4,27 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2416d190b4eb4be7bfb0db5538d57060" Name="Diagram1" ZoomLevel="108">
+      <Diagram DiagramId="752c721130ef4f0fa2a1816bc7684939" Name="Diagram1" ZoomLevel="64">
         <EntityTypeShape EntityType="GamingZoneModel.CartItem" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.Category" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="GamingZoneModel.Event" Width="1.5" PointX="2.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="GamingZoneModel.Event" Width="1.5" PointX="10.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.Order" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.OrderDetail" Width="1.5" PointX="10.5" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="GamingZoneModel.Player" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GamingZoneModel.Player" Width="1.5" PointX="15.25" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.Product" Width="1.5" PointX="5.25" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="GamingZoneModel.Rating" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GamingZoneModel.Rating" Width="1.5" PointX="17.5" PointY="7.25" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.SubCategory" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GamingZoneModel.Team" Width="1.5" PointX="5" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="GamingZoneModel.User" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="GamingZoneModel.TeamRequest" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GamingZoneModel.Team" Width="1.5" PointX="13" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="GamingZoneModel.User" Width="1.5" PointX="15.25" PointY="2.875" IsExpanded="true" />
         <AssociationConnector Association="GamingZoneModel.FK_CartItem_Products" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_dbo_SubCategories_dbo_Categories_CategoryID" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_Teams_Events" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_OrderDetail_Order" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_OrderDetail_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="GamingZoneModel.FK_Players_Teams" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_Rating_Players" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_dbo_Products_dbo_SubCategories_SubcategoryID" ManuallyRouted="false" />
         <AssociationConnector Association="GamingZoneModel.FK_Rating_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="GamingZoneModel.FK_Players_Teams" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

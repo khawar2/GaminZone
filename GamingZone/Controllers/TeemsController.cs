@@ -15,17 +15,35 @@ namespace GamingZone.Controllers
     public class TeemsController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();
+        private HttpContextBase _httpContext;
+        public TeemsController(HttpContextBase http)
+        {
+            _httpContext = http;
 
+        }
         // GET: Teems
         public ActionResult Index()
         {
+            var userId = Convert.ToString(_httpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
             var teams = db.Teams.Include(t => t.Event);
+            if (_httpContext.Session["Role"].ToString()=="User")
+            {
+                return View(teams.Where(x=>x.UserId==id).ToList());
+            }
             return View(teams.ToList());
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Index(string SearchTeam)
         {
+            var userId = Convert.ToString(_httpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
+            var teams = db.Teams.Where(x => x.Name == SearchTeam).Include(t => t.Event);
+            if (_httpContext.Session["Role"].ToString() == "User")
+            {
+                return View(teams.Where(x => x.UserId == id).ToList());
+            }
             return View(db.Teams.Include(t => t.Event).Where(x => x.Name == SearchTeam).ToList());
         }
 
@@ -38,6 +56,7 @@ namespace GamingZone.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Team team = db.Teams.Find(id);
+
             if (team == null)
             {
                 return HttpNotFound();
@@ -48,6 +67,12 @@ namespace GamingZone.Controllers
         // GET: Teems/Create
         public ActionResult Create()
         {
+            var userId = Convert.ToString(_httpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
+            if (_httpContext.Session["Role"].ToString() == "User")
+            {
+                ViewBag.User = id;
+            }
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
             return View();
@@ -60,6 +85,25 @@ namespace GamingZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
+            if (_httpContext.Session["Role"].ToString() == "User")
+            {
+                var userId = Convert.ToString(_httpContext.Session["UserId"]);
+                int user = Convert.ToInt32(userId);
+                if (ModelState.IsValid)
+                {
+                    TeamRequest teamRequest = new TeamRequest();
+                    teamRequest.Name = team.Name;
+                    teamRequest.NoOfPlayers = team.NoOfPlayers;
+                    teamRequest.Description = team.Description;
+                    teamRequest.EventId = team.EventId;
+                    teamRequest.UserId = team.UserId;
+
+                    db.TeamRequests.Add(teamRequest);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                ViewBag.User = userId;
+            }
             if (ModelState.IsValid)
             {
                 db.Teams.Add(team);
@@ -77,6 +121,13 @@ namespace GamingZone.Controllers
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+         
+            if (_httpContext.Session["Role"].ToString() == "User")
+            {
+                var userId = Convert.ToString(_httpContext.Session["UserId"]);
+                int user = Convert.ToInt32(userId);
+                ViewBag.UserId = user;
             }
             Team team = db.Teams.Find(id);
             if (team == null)
