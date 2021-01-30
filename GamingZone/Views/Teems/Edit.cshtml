@@ -64,7 +64,7 @@
                             }
                             @if (Session["Role"].ToString() == "User")
                             {
-                                <input type="hidden" name="UserId" value="@ViewBag.UserId" />
+                                <input type="hidden" name="UserId" value="@ViewBag.User" />
                             }
                             @Html.HiddenFor(model => model.Id)
 

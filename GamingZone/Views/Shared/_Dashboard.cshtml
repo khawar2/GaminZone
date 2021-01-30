@@ -75,13 +75,10 @@ font-size: 16px;">
                         </li>
                         <li>
 
-                            @Html.ActionLink("  Teams Requests", "Index", "", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                            @Html.ActionLink("  Teams Requests", "Index", "TeamsRequest", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
                         </li>
-                        <li>
-                            @Html.ActionLink("  Players Requests", "Create", "", null, new { @class = " fa fa-bar-chart-o fa-2x", style = " font-size: 20px" })
-
-                        </li>
+                        
                         <li>
                             @Html.ActionLink("User Store", "Store", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
@@ -134,12 +131,14 @@ font-size: 16px;">
                         <li>
                             @Html.ActionLink(" Dashboard", "Index", "Home", null, new { @class = "active-menu fa fa-dashboard fa-2x", style = " font-size: 20px " })
                         </li>
-                        
                         <li>
-                            @Html.ActionLink("User Store", "Store", "Products", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                            @Html.ActionLink(" My Team", "Index", "Teems", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
 
                         </li>
-                       
+                        <li>
+                            @Html.ActionLink(" My Players", "MyTeamPlayers", "Players", null, new { @class = " fa fa-table fa-2x", style = " font-size: 20px" })
+                        </li>
+
 
                         <li>
                             <a href="#"><i class="fa fa-sitemap fa-3x"></i> Settings<span class="fa arrow"></span></a>

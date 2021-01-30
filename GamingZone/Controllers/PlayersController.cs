@@ -8,14 +8,16 @@ using System.Web;
 using System.Web.Mvc;
 using GamingZone.Infrastructure;
 using GamingZone.Models;
+using GamingZone.ViewModels;
 
 namespace GamingZone.Controllers
 {
-    [CustomAuthorize("Admin")]
+    [CustomAuthorize("Admin","User")]
     public class PlayersController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();
-
+        
+        
         // GET: Players
         public ActionResult Index()
         {
@@ -41,7 +43,15 @@ namespace GamingZone.Controllers
         // GET: Players/Create
         public ActionResult Create()
         {
-            ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name");
+            if (!IsAdmin())
+            {
+                int userid = GetUserId();
+                ViewBag.TeamId = new SelectList(db.Teams.Where(c=>c.UserId==userid), "Id", "Name");
+            }
+            else
+            {
+                ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name");
+            }
             return View();
         }
 
@@ -52,16 +62,24 @@ namespace GamingZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Age,ImagePath,TeamId")] Player player, HttpPostedFileBase ImagePath)
         {
+            int userid = GetUserId();
             if (ModelState.IsValid)
             {
                 var countPlayer = db.Teams.Where(x => x.Id == player.Id).Include(x => x.Players).FirstOrDefault();
 
-                if (countPlayer.Players != null)
+                if (countPlayer != null)
                 {
                     if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
                     {
 
-                        ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
+                        if (!IsAdmin())
+                        {
+                            ViewBag.TeamId = new SelectList(db.Teams.Where(c => c.UserId == userid), "Id", "Name");
+                        }
+                        else
+                        {
+                            ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
+                        }
                         ViewBag.error = "Team is full select another";
                         return View(player);
                     }
@@ -79,13 +97,21 @@ namespace GamingZone.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
+            if (!IsAdmin())
+            {
+                ViewBag.TeamId = new SelectList(db.Teams.Where(c => c.UserId == userid), "Id", "Name");
+            }
+            else
+            {
+                ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
+            }
             return View(player);
         }
 
         // GET: Players/Edit/5
         public ActionResult Edit(int? id)
         {
+            int userid = GetUserId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -94,6 +120,11 @@ namespace GamingZone.Controllers
             if (player == null)
             {
                 return HttpNotFound();
+            }
+            if (!IsAdmin())
+            {
+                ViewBag.TeamId = new SelectList(db.Teams.Where(m=>m.UserId==userid), "Id", "Name", player.TeamId);
+                return View(player);
             }
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
             return View(player);
@@ -106,15 +137,19 @@ namespace GamingZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Age,ImagePath,TeamId,UserId")] Player player, HttpPostedFileBase ImagePath)
         {
+            int userid = GetUserId();
             var countPlayer = db.Teams.Where(x => x.Id == player.Id).Include(x => x.Players).FirstOrDefault();
-            if(countPlayer.Players!=null)
+            if(countPlayer !=null)
             {
                 if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
                 {
-
-                    ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
+                    if (!IsAdmin())
+                        ViewBag.TeamId = new SelectList(db.Teams.Where(m=>m.UserId==userid), "Id", "Name", player.TeamId);
+                    else
+                        ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
                     ViewBag.error = "Team is full select another";
                     return View(player);
+
                 }
             }
          
@@ -128,10 +163,74 @@ namespace GamingZone.Controllers
             {
                 db.Entry(player).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                if (!IsAdmin())
+                    return RedirectToAction("MyTeamPlayers");
+                else
+                    return RedirectToAction("Index");
+
             }
-            ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
+            if (!IsAdmin())
+                ViewBag.TeamId = new SelectList(db.Teams.Where(m => m.UserId == userid), "Id", "Name", player.TeamId);
+            else
+                ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
             return View(player);
+        }
+
+
+        [HttpGet]
+        public ActionResult MyTeamPlayers(int teamID=0)
+        {
+            if(teamID==0)
+            {
+                var myplayers = (from team in db.Teams
+                                 join player in db.Players on team.Id equals player.TeamId
+                                 where team.Id == teamID
+                                 select new TeamPlayerVM
+                                 {
+                                     Id = player.Id,
+                                     Name = player.Name,
+                                     Age = player.Age,
+                                     Ratings = player.Ratings,
+                                     TeamName = team.Name
+                                 }
+                        );
+                return View(myplayers);
+            }
+            else
+            {
+                int userid = GetUserId();
+                var myplayers = (from team in db.Teams
+                                 join player in db.Players on team.Id equals player.TeamId
+                                 where team.UserId == userid
+                                 select new TeamPlayerVM
+                                 {
+                                     Id = player.Id,
+                                     Name = player.Name,
+                                     Age = player.Age,
+                                     Ratings = player.Ratings,
+                                     TeamName = team.Name
+                                 }
+                        );
+                return View(myplayers);
+            }
+       
+        }
+    
+
+        public bool IsAdmin()
+        {
+            if (HttpContext.Session["Role"].ToString() == "User")
+            {
+                return false;
+            }
+            return true;
+        }
+        public int GetUserId()
+        {
+            var userId = Convert.ToString(HttpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
+            return id;
         }
         
         [HttpGet]

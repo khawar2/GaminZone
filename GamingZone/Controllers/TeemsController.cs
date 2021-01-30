@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using GamingZone.Infrastructure;
 using GamingZone.Models;
+using GamingZone.ViewModels;
 
 namespace GamingZone.Controllers
 {
@@ -15,21 +16,15 @@ namespace GamingZone.Controllers
     public class TeemsController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();
-        private HttpContextBase _httpContext;
-        public TeemsController(HttpContextBase http)
-        {
-            _httpContext = http;
-
-        }
+       
         // GET: Teems
         public ActionResult Index()
         {
-            var userId = Convert.ToString(_httpContext.Session["UserId"]);
-            int id = Convert.ToInt32(userId);
             var teams = db.Teams.Include(t => t.Event);
-            if (_httpContext.Session["Role"].ToString()=="User")
+            if (!IsAdmin())
             {
-                return View(teams.Where(x=>x.UserId==id).ToList());
+                int userid = GetUserId();
+                return View(teams.Where(x=>x.UserId==userid).ToList());
             }
             return View(teams.ToList());
         }
@@ -37,12 +32,11 @@ namespace GamingZone.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult Index(string SearchTeam)
         {
-            var userId = Convert.ToString(_httpContext.Session["UserId"]);
-            int id = Convert.ToInt32(userId);
             var teams = db.Teams.Where(x => x.Name == SearchTeam).Include(t => t.Event);
-            if (_httpContext.Session["Role"].ToString() == "User")
+            if (!IsAdmin())
             {
-                return View(teams.Where(x => x.UserId == id).ToList());
+                int userid = GetUserId();
+                return View(teams.Where(x => x.UserId == userid).ToList());
             }
             return View(db.Teams.Include(t => t.Event).Where(x => x.Name == SearchTeam).ToList());
         }
@@ -67,11 +61,10 @@ namespace GamingZone.Controllers
         // GET: Teems/Create
         public ActionResult Create()
         {
-            var userId = Convert.ToString(_httpContext.Session["UserId"]);
-            int id = Convert.ToInt32(userId);
-            if (_httpContext.Session["Role"].ToString() == "User")
+            if (!IsAdmin())
             {
-                ViewBag.User = id;
+                int userid = GetUserId();
+                ViewBag.User = userid;
             }
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.EventId = new SelectList(db.Events, "Id", "Subject");
@@ -85,10 +78,9 @@ namespace GamingZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
-            if (_httpContext.Session["Role"].ToString() == "User")
+            int userid = GetUserId();
+            if (!IsAdmin())
             {
-                var userId = Convert.ToString(_httpContext.Session["UserId"]);
-                int user = Convert.ToInt32(userId);
                 if (ModelState.IsValid)
                 {
                     TeamRequest teamRequest = new TeamRequest();
@@ -96,13 +88,13 @@ namespace GamingZone.Controllers
                     teamRequest.NoOfPlayers = team.NoOfPlayers;
                     teamRequest.Description = team.Description;
                     teamRequest.EventId = team.EventId;
-                    teamRequest.UserId = team.UserId;
+                    teamRequest.UserId = userid ;
 
                     db.TeamRequests.Add(teamRequest);
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                ViewBag.User = userId;
+                ViewBag.User = userid;
             }
             if (ModelState.IsValid)
             {
@@ -118,16 +110,15 @@ namespace GamingZone.Controllers
         // GET: Teems/Edit/5
         public ActionResult Edit(int? id)
         {
+            int userid = GetUserId();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
          
-            if (_httpContext.Session["Role"].ToString() == "User")
+            if (!IsAdmin())
             {
-                var userId = Convert.ToString(_httpContext.Session["UserId"]);
-                int user = Convert.ToInt32(userId);
-                ViewBag.UserId = user;
+                ViewBag.User = userid;
             }
             Team team = db.Teams.Find(id);
             if (team == null)
@@ -146,10 +137,16 @@ namespace GamingZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
+            int userid = GetUserId();
+            ViewBag.User = userid;
             if (ModelState.IsValid)
             {
                 db.Entry(team).State = EntityState.Modified;
                 db.SaveChanges();
+                if (!IsAdmin())
+                {
+                    ViewBag.UserId = userid;
+                }
                 return RedirectToAction("Index");
             }
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
@@ -168,23 +165,20 @@ namespace GamingZone.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        [ValidateAntiForgeryToken]
-        public ActionResult IndividualTeam(int id)
+        public bool IsAdmin()
         {
-            Team team = db.Teams.Find(id);
-            db.Teams.Remove(team);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (HttpContext.Session["Role"].ToString() == "User")
+            {
+                return false;
+            }
+            return true;
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult IndividualTeam()
+        public int GetUserId()
         {
-            return RedirectToAction("Index");
+            var userId = Convert.ToString(HttpContext.Session["UserId"]);
+            int id = Convert.ToInt32(userId);
+            return id;
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
