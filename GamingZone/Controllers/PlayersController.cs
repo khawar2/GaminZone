@@ -51,10 +51,17 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Age,TeamId,UserId")] Player player)
+        public ActionResult Create([Bind(Include = "Id,Name,Age,ImagePath,TeamId,UserId")] Player player, HttpPostedFileBase ImagePath)
         {
             if (ModelState.IsValid)
             {
+                if (ImagePath != null)
+                {
+                    ImagePath.SaveAs(HttpContext.Server.MapPath("~/Images/")
+                                                          + ImagePath.FileName);
+                    player.ImagePath = ImagePath.FileName;
+                }
+
                 db.Players.Add(player);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -87,7 +94,7 @@ namespace GamingZone.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Age,TeamId,UserId")] Player player)
+        public ActionResult Edit([Bind(Include = "Id,Name,Age,ImagePath,TeamId,UserId")] Player player, HttpPostedFileBase ImagePath)
         {
             if (ModelState.IsValid)
             {
@@ -116,9 +123,7 @@ namespace GamingZone.Controllers
         }
 
         // POST: Players/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             Player player = db.Players.Find(id);
             db.Players.Remove(player);

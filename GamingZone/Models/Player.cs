@@ -23,8 +23,9 @@ namespace GamingZone.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Age { get; set; }
-        public Nullable<int> TeamId { get; set; }
-        public Nullable<int> UserId { get; set; }
+        public int TeamId { get; set; }
+        public int UserId { get; set; }
+        public string ImagePath { get; set; }
     
         public virtual Team Team { get; set; }
         public virtual User User { get; set; }

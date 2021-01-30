@@ -4,47 +4,46 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>Player</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form Elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Player Detail
+            </div>
+            <div style="color:white; background-color:#222323" class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--Div End-->
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
+                        <div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Age)
-        </dd>
+                            <dl class="dl-horizontal">
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Team.Name)
-        </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Age)
+                                </dd>
+                                <br />
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Team.Name)
+                                </dt>
+                        </div>
+                        <p>
+                            @Html.ActionLink(" Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary fas fa-edit", style = "background-color: blue;  background-image: linear-gradient(blue,black);" })
+                            @Html.ActionLink(" Back to Event List", "Index", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })
+                        </p>
+                        <!--Code End-->
 
-        <dd>
-            @Html.DisplayFor(model => model.Team.Name)
-        </dd>
+                    </div>
+                </div>
+            </div>
+            <!-- End Form Elements -->
+        </div>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -8,121 +8,52 @@
         <!-- Form Elements -->
         <div class="panel panel-default">
             <div class="panel-heading">
-                Players
+                Events
             </div>
             <div style="color:white; background-color:#222323" class="panel-body">
                 <div class="row">
                     <div class="col-md-12">
-                        @using (Html.BeginForm())
-                        {
-
-                            @Html.AntiForgeryToken()
-
-                            <div class="form-horizontal">
-                                <div class="form-group">
-                                    @Html.Label("Search:", new { @class = "control-label col-md-2" })
-
-                                    <div class="col-md-8">
-
-
-
-                                        @Html.TextBox("SearchPlayer", null, new { @class = " form-control ", placeholder = "Search Products...", style = "max-width:100%;" })
-
-                                        <div class="text-center">
-                                            Search By: @Html.RadioButton("option", "Name") <text>Name</text> @Html.RadioButton("option", "Price") <text> Price </text>
-                                            @Html.RadioButton("option", "Category")<text>Category</text>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary" style="background-color: purple; color: white; background-image: linear-gradient(purple,black);">
-                                            <i class="fa fa-search"></i>
-                                            Search
-
-                                        </button>
-
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                        }
-                        <hr />
-
                         <p>
-                            @Html.ActionLink(" Create New product", "Create", "", new { @class = "btn btn-success far fa-plus-square", style = "background-color: #0d973e; background-image: linear-gradient(#0d973e,black);" })
+                            @Html.ActionLink(" Create New Player", "Create", "", new { @class = "btn btn-success far fa-plus-square", style = "background-color: #0d973e; background-image: linear-gradient(#0d973e,black);" })
                         </p>
-                        <table class="table table-dark table-condensed table-bordered " id="dataTables-example">
+                        <br />
 
+                        <table class="table table-bordered " id="dataTables-example">
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.SubCategory.SubcategoryName)
+                                    @Html.DisplayNameFor(model => model.Name)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.ProductName)
+                                    @Html.DisplayNameFor(model => model.Age)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Description)
+                                    @Html.DisplayNameFor(model => model.Team.Name)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ImagePath)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.UnitPrice)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Seller)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Color)
-                                </th>
-                                @*<th>
-                                        @Html.DisplayNameFor(model => model.Date)
-                                    </th>*@
                                 <th></th>
                             </tr>
 
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.SubCategory.SubcategoryName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ProductName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Description)
-                                    </td>
-                                    <td>
-                                        <img src="~/images/@item.ImagePath" width="100" height="50" />
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UnitPrice)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Seller)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Color)
-                                    </td>
-                                    @*<td>
-                                            @Html.DisplayFor(modelItem => item.Date)
-                                        </td>*@
-                                    <td>
-                                        @Html.ActionLink(" Edit", "Edit", new { id = item.ProductID }, new { @class = "btn btn-primary fas fa-edit" })
-                                        @Html.ActionLink(" Details", "Details", new { id = item.ProductID }, new { @class = "btn btn-warning far fa-list-alt" })
-                                        @Html.ActionLink(" Delete", "Delete", new { id = item.ProductID }, new { @class = "btn btn-danger far fa-trash-alt" })
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Age)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Team.Name)
+                                </td>
+                                <td>
+                                    @Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary fas fa-edit" })
+                                    @Html.ActionLink(" Details", "Details", new { id = item.Id }, new { @class = "btn btn-warning far fa-list-alt" })
+                                    @Html.ActionLink(" Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger far fa-trash-alt" })
+                                </td>
+                            </tr>
                             }
 
                         </table>
-
-
+                        <!--Code End-->
                     </div>
                 </div>
             </div>
