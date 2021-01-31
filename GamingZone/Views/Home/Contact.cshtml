@@ -1,17 +1,109 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<style>
+    body {
+        font-family: 'Comic Sans MS','Segoe UI', Tahoma, Geneva, Verdana;
+        background-color: #2a2929;
+        color: white;
+    }
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    h1 {
+        color: limegreen;
+    }
+
+    h2 {
+        color: limegreen;
+    }
+</style>
+
+
+<div class="text-center" style="background-color:#c8c8c8; color:black;">
+    <p style="font-size:20px;">
+        Welcome <span style="color:#188e13; font-weight:bold;">
+        </span> To ProGamers Store
+
+    </p>
+</div>
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+
+            @using (Html.BeginForm())
+            {
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Name</label>
+
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Email</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Your Comment</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control">Comments...</textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button style=" background-color: green;  background-image: linear-gradient(#0d973e,black);" id="button" type="submit" value="Add Categories" class="btn btn-success">
+                                <i class="far fa-plus-square"></i>
+
+                                Contact
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+
+        </div>
+
+        <div class="col-sm-8 col-md-8 col-lg-8">
+            <h1>How Can We Help You?</h1>
+            <p>
+                Please select a topic related to your inquirey , <br />
+                If you don't find what you need, Fill out our Contact with your inquiry
+                <br />
+                <span style="font-weight:bold; font-size:20px;">
+                    Thank you
+                    &#128522;
+                </span>
+            </p>
+            <br />
+            <br />
+
+            <h2>Book A Demo</h2>
+            <p>Request a demo from our specialist</p>
+            <button class="btn-sm btn-danger">Demo</button>
+            <br />
+            <h2>How to Order</h2>
+            <p>Click to see how it works! <a href="">Work it out</a></p>
+
+            <h2>Become a partner</h2>
+            <p>Please click to join! <a href="">Join us</a></p>
+            <br />
+        </div>
+    </div>
+</div>

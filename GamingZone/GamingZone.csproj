@@ -332,7 +332,7 @@
     <Content Include="Models\Model.edmx.diagram">
       <DependentUpon>Model.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -400,6 +400,7 @@
     <Content Include="Views\Players\MyTeamPlayers.cshtml" />
     <Content Include="Views\Players\ViewOtherPlayers.cshtml" />
     <Content Include="Views\Players\Profle.cshtml" />
+    <Content Include="Views\Home\Tournaments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

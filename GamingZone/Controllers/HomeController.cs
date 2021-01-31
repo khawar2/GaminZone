@@ -7,9 +7,10 @@ using System.Web.Mvc;
 
 namespace GamingZone.Controllers
 {
-    [CustomAuthorize("Admin", "User")]
+    
     public class HomeController : Controller
     {
+        [CustomAuthorize("Admin", "User")]
         public ActionResult Index()
         {
             return View();
@@ -22,6 +23,12 @@ namespace GamingZone.Controllers
         }
 
         public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+        public ActionResult Tournaments()
         {
             ViewBag.Message = "Your contact page.";
 

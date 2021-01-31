@@ -4,7 +4,11 @@
 @{
     ViewBag.Title = "Checkout";
 }
-
+<style>
+    #lable {
+        color: #00c900;
+    }
+</style>
 <form action="@Url.Action("Checkout")" method="POST" id="braintree-payment-form">
     @Html.AntiForgeryToken()
     <h2>Checkout</h2>
@@ -12,56 +16,102 @@
     @Html.ValidationSummary()
 
     <fieldset>
-        <legend>Shipping Information</legend>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.FirstName)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.FirstName)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.LastName)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.LastName)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.Address)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.Address)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.City)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.City)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.State)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.State)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.PostalCode)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.PostalCode)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.Country)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.Country)</div>
-        </p>
-        <p>
-            <div class="editor-label">@Html.LabelFor(m => m.Email)</div>
-            <div class="editor-field">@Html.EditorFor(m => m.Email)</div>
-        </p>
+        <legend id="lable">Shipping Information</legend>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control" } })</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.LastName)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.Address)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.Address, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+            <div class="col-md-6">
+
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.City)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.State)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.State, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.PostalCode)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.PostalCode, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.Country)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.Country, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <div class="editor-label">@Html.LabelFor(m => m.Email)</div>
+                    <div class="editor-field">@Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control", required = "required" } })</div>
+                </p>
+            </div>
+        </div>
+
     </fieldset>
     <fieldset>
-        <legend>Payment Information</legend>
-        <p>
-            <label>Card Number</label>
-            <input type="text" size="20" autocomplete="off" data-encrypted-name="CardNumber" />
-        </p>
-        <p>
-            <label>CVV</label>
-            <input type="text" size="4" autocomplete="off" data-encrypted-name="Cvv" />
-        </p>
-        <p>
-            <label>Expiration (MM/YYYY)</label>
-            <input type="text" size="2" name="Month" /> / <input type="text" size="4" name="Year" />
-        </p>
+        <legend id="lable">Payment Information</legend>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    <label>Card Number</label>
+                    <input type="text" size="20" autocomplete="off" data-encrypted-name="CardNumber" placeholder="Enter 16 digits" class="form-control" />
+                </p>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    <label>CVV</label>
+                    <input type="text" size="4" autocomplete="off" data-encrypted-name="Cvv" placeholder="Enter 4 digits" class="form-control" />
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <p>
+                <div class="col-md-6">
+                    <label>Expiration (MM/YYYY)</label>
+                </div>
+               
+                
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" size="2" name="Month" placeholder="Month" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                 <input type="text" size="4" name="Year" placeholder="Year" class="form-control" />
+            </div>
+        </div>
+       
     </fieldset>
-    <input class="submit-button" type="submit" />
+    <input class="submit-button btn btn-warning far fa-list-alt" type="submit" style="background-color: orange; margin-top:20px;  background-image: linear-gradient(orange,black);" />
 </form>
 
 @section scripts {
