@@ -24,7 +24,7 @@ namespace GamingZone.Controllers
         }
 
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult Index(string SearchSubCategory)
         {
 
@@ -59,7 +59,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "SubcategoryID,SubcategoryName,Description,CategoryID")] SubCategory subCategory)
         {
             if (ModelState.IsValid)
@@ -93,7 +92,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "SubcategoryID,SubcategoryName,Description,CategoryID")] SubCategory subCategory)
         {
             if (ModelState.IsValid)
@@ -124,19 +122,16 @@ namespace GamingZone.Controllers
 
         // POST: SubCategories/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             SubCategory subCategory = db.SubCategories.Find(id);
-            //var subcate = db.Products.Where(c => c.SubcategoryID == subCategory.SubcategoryID).ToList();
-            //if (subcate != null)
-            //{
-            //    TempData["DeleteUpdate"] = "Products to this Subcategory exsits!";
-            //    TempData.Keep();
-            //}
-            //else
-            //{
-           db.SubCategories.Remove(subCategory);
+            var products = db.Products.Where(c => c.SubcategoryID == id).ToList();
+            if (products != null)
+            {
+                db.Products.RemoveRange(products);
+                TempData["Delete"] = "Subcategory to this category exsits!";
+            }
+            db.SubCategories.Remove(subCategory);
             db.SaveChanges();
             //}
            

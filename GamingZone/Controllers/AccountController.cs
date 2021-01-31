@@ -23,7 +23,6 @@ namespace GamingZone.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login(Login login)
         {
             if (ModelState.IsValid)

@@ -1,0 +1,159 @@
+﻿
+@model GamingZone.ViewModels.ProfileVM
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+  
+
+    .checked {
+        color: orange;
+    }
+
+    /****** Style Star Rating Widget *****/
+    @@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+    .rating {
+        border: none;
+        float: left;
+    }
+
+        .rating > input {
+            display: none;
+        }
+
+        .rating > label:before {
+            margin: 5px;
+            font-size: 1.25em;
+            font-family: FontAwesome;
+            display: inline-block;
+            content: "\f005";
+        }
+
+        .rating > label {
+            color: #ddd;
+            float: right;
+        }
+
+        /***** CSS Magic to Highlight Stars on Hover *****/
+        .rating > input:checked ~ label, /* show gold star when clicked */
+        .rating:not(:checked) > label:hover, /* hover current star */
+        .rating:not(:checked) > label:hover ~ label {
+            color: #FFD700;
+        }
+            /* hover previous stars in list */
+            .rating > input:checked + label:hover, /* hover current star when changing rating */
+            .rating > input:checked ~ label:hover,
+            .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+            .rating > input:checked ~ label:hover ~ label {
+                color: #FFED85;
+            }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <!-- Form Elements -->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Player Detail
+            </div>
+            <div style="color:white; background-color:#222323" class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!--Div End-->
+                        <div>
+                            <dl class="dl-horizontal">
+
+                                <div class="row">
+                                    <img src="~/images/@Model.Players.ImagePath" width="100px" style="margin-left:50px" height="50" />
+                                </div>
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Players.Name)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Players.Name)
+                                </dd>
+                                <br />
+                                <dt style="text-align:center;">
+                                    @Html.DisplayNameFor(model => model.Players.Age)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Players.Age)
+                                </dd>
+                                <br />
+                                <dt style="text-align:center;">
+                                    Team
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => model.Players.Team.Name)
+                                </dd>
+                        </div>
+                        <!--Code End-->
+
+                    </div>
+                    @if (Model.Ratings != null)
+                    {
+                    <div class="col-md-6">
+                        @for (int i = 0; i < Model.Ratings.Rating1; i++)
+                        {
+                        <span class="fa fa-star checked"></span>
+                        }
+                        @for (int i = 0; i < 5 - Model.Ratings.Rating1; i++)
+                        {
+                        <span class="fa fa-star"></span>
+                        }
+
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("Rating", "Players", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <input type="hidden" value="@Model.Players.Id" name="PlayerId" />
+                                <input type="hidden" value="@ViewBag.user" name="UserId" />
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Ratings.Rating1, "Rating", htmlAttributes: new { @class = "control-label col-12" })
+                                    <div class="col-md-10">
+                                        <fieldset class="rating">
+                                            <input type="radio" id="star5" name="Rating1" value="5" /><label class="full" for="star5"></label>
+                                            <input type="radio" id="star4" name="Rating1" value="4" /><label class="full" for="star4"></label>
+                                            <input type="radio" id="star3" name="Rating1" value="3" /><label class="full" for="star3"></label>
+                                            <input type="radio" id="star2" name="Rating1" value="2" /><label class="full" for="star2"></label>
+                                            <input type="radio" id="star1" name="Rating1" value="1" /><label class="full" for="star1"></label>
+                                        </fieldset>
+                                        @Html.ValidationMessageFor(model => model.Ratings.Rating1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <button style=" background-color: green;  background-image: linear-gradient(#0d973e,black);" id="button" type="submit" value="Add Categories" class="btn btn-success">
+                                            <i class="far fa-plus-square"></i>
+
+                                            Add Review
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    }
+                </div>
+            </div>
+            <!-- End Form Elements -->
+        </div>
+    </div>
+
+</div>

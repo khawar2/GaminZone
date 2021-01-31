@@ -46,7 +46,7 @@
                                     @Html.DisplayFor(model => model.Team.Name)
                                 </dd>
 </div>
-                        <p>
+                        @*<p>
                             @Html.ActionLink(" Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary fas fa-edit", style = "background-color: blue;  background-image: linear-gradient(blue,black);" })
                             @if (Session["Role"].ToString() == "Admin")
                             {
@@ -56,7 +56,7 @@
                             {
                                 @Html.ActionLink(" Back to Player List", "MyTeamPlayers", "", new { @class = "btn btn-warning far fa-list-alt", style = "background-color: orange;  background-image: linear-gradient(orange,black);" })
                             }
-                        </p>
+                        </p>*@
                         <!--Code End-->
 
                     </div>

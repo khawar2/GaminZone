@@ -22,7 +22,7 @@ namespace GamingZone.Controllers
             return View(db.Categories.ToList());
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult Index(string SearchCategory)
         {
 
@@ -55,7 +55,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CategoryID,CategoryName,Description")] Category category)
         {
             if (ModelState.IsValid)
@@ -116,23 +115,23 @@ namespace GamingZone.Controllers
 
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Category category = db.Categories.Find(id);
             var subcate = db.SubCategories.Where(c => c.CategoryID == category.CategoryID).ToList();
             if (subcate != null)
             {
+                foreach (var subItem in subcate)
+                {
+                    var prod = db.Products.Where(x => x.SubcategoryID == subItem.SubcategoryID).ToList();
+                    db.Products.RemoveRange(prod);
+                }
+                db.SubCategories.RemoveRange(subcate);
                 TempData["Delete"] = "Subcategory to this category exsits!";
                 //TempData.Keep();
             }
-            else
-            {
-        db.Categories.Remove(category);
+            db.Categories.Remove(category);
             db.SaveChanges();
-            }
-
-    
             return RedirectToAction("Index");
         }
 

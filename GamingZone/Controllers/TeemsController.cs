@@ -29,7 +29,7 @@ namespace GamingZone.Controllers
             return View(teams.ToList());
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult Index(string SearchTeam)
         {
             var teams = db.Teams.Where(x => x.Name == SearchTeam).Include(t => t.Event);
@@ -75,7 +75,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
             int userid = GetUserId();
@@ -134,7 +133,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,NoOfPlayers,TeamRating,Description,EventId,UserId")] Team team)
         {
             int userid = GetUserId();
@@ -156,9 +154,19 @@ namespace GamingZone.Controllers
         
         // POST: Teems/Delete/5
         [HttpGet]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
+            var players = db.Players.Where(c => c.TeamId == id).ToList();
+            if (players != null)
+            {
+                foreach (var item in players)
+                {
+                    var prod = db.Ratings.Where(x => x.PlayerId == item.Id).ToList();
+                    db.Ratings.RemoveRange(prod);
+                }
+                db.Players.RemoveRange(players);
+                TempData["Delete"] = "Subcategory to this category exsits!";
+            }
             Team team = db.Teams.Find(id);
             db.Teams.Remove(team);
             db.SaveChanges();

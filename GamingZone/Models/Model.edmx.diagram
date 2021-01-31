@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="752c721130ef4f0fa2a1816bc7684939" Name="Diagram1" ZoomLevel="64">
+      <Diagram DiagramId="19a06e035c7e4b2f9b85b870468ab035" Name="Diagram1">
         <EntityTypeShape EntityType="GamingZoneModel.CartItem" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.Category" Width="1.5" PointX="0.75" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="GamingZoneModel.Event" Width="1.5" PointX="10.75" PointY="7.125" IsExpanded="true" />

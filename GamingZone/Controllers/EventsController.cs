@@ -47,7 +47,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Subject,Description,Start,End,Date")] Event @event)
         {
             if (ModelState.IsValid)
@@ -80,7 +79,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Subject,Description,Start,End,Date")] Event @event)
         {
             if (ModelState.IsValid)
@@ -99,6 +97,23 @@ namespace GamingZone.Controllers
         public ActionResult Delete(int id)
         {
             Event @event = db.Events.Find(id);
+            var teams = db.Teams.Where(c => c.EventId == id).ToList();
+            if (teams != null)
+            {
+                foreach (var itemTeams in teams)
+                {
+                    var players = db.Players.Where(x => x.TeamId == itemTeams.Id).ToList();
+
+                    foreach (var itempalyers in players)
+                    {
+                        var prod = db.Ratings.Where(x => x.PlayerId == itempalyers.Id).ToList();
+                        db.Ratings.RemoveRange(prod);
+                    }
+                    db.Players.RemoveRange(players);
+                }
+
+                db.Teams.RemoveRange(teams);
+            }
             db.Events.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");

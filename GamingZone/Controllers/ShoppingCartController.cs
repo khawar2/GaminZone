@@ -50,7 +50,6 @@ namespace GamingZone.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Checkout(CheckoutViewModel model)
         {
             if (!ModelState.IsValid)

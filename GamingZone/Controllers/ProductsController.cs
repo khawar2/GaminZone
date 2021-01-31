@@ -1,4 +1,5 @@
 ﻿using GamingZone.Infrastructure;
+using GamingZone.Infrastructure;
 using GamingZone.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace GamingZone.Controllers
         }
 
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
         public ActionResult Index(string SearchCategory, string option)
         {
             if (option == "Name")
@@ -71,7 +72,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProductID,ProductName,Description,ImagePath,UnitPrice,Seller,Color,Date,SubcategoryID")] Product product, HttpPostedFileBase ImagePath)
         {
             if (ModelState.IsValid)
@@ -112,7 +112,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProductID,ProductName,Description,ImagePath,UnitPrice,Seller,Color,Date,SubcategoryID")] Product product,HttpPostedFileBase ImagePath)
         {
             if (ModelState.IsValid)
@@ -152,7 +151,6 @@ namespace GamingZone.Controllers
 
         // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Product product = db.Products.Find(id);

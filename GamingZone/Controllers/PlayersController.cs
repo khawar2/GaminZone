@@ -12,12 +12,12 @@ using GamingZone.ViewModels;
 
 namespace GamingZone.Controllers
 {
-    [CustomAuthorize("Admin","User")]
+    [CustomAuthorize("Admin", "User")]
     public class PlayersController : Controller
     {
         private GamingZoneEntities db = new GamingZoneEntities();
-        
-        
+
+
         // GET: Players
         public ActionResult Index()
         {
@@ -46,7 +46,7 @@ namespace GamingZone.Controllers
             if (!IsAdmin())
             {
                 int userid = GetUserId();
-                ViewBag.TeamId = new SelectList(db.Teams.Where(c=>c.UserId==userid), "Id", "Name");
+                ViewBag.TeamId = new SelectList(db.Teams.Where(c => c.UserId == userid), "Id", "Name");
             }
             else
             {
@@ -59,7 +59,6 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Age,ImagePath,TeamId")] Player player, HttpPostedFileBase ImagePath)
         {
             int userid = GetUserId();
@@ -123,7 +122,7 @@ namespace GamingZone.Controllers
             }
             if (!IsAdmin())
             {
-                ViewBag.TeamId = new SelectList(db.Teams.Where(m=>m.UserId==userid), "Id", "Name", player.TeamId);
+                ViewBag.TeamId = new SelectList(db.Teams.Where(m => m.UserId == userid), "Id", "Name", player.TeamId);
                 return View(player);
             }
             ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
@@ -134,17 +133,16 @@ namespace GamingZone.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name,Age,ImagePath,TeamId,UserId")] Player player, HttpPostedFileBase ImagePath)
         {
             int userid = GetUserId();
             var countPlayer = db.Teams.Where(x => x.Id == player.Id).Include(x => x.Players).FirstOrDefault();
-            if(countPlayer !=null)
+            if (countPlayer != null)
             {
                 if (countPlayer.Players.Count >= countPlayer.NoOfPlayers)
                 {
                     if (!IsAdmin())
-                        ViewBag.TeamId = new SelectList(db.Teams.Where(m=>m.UserId==userid), "Id", "Name", player.TeamId);
+                        ViewBag.TeamId = new SelectList(db.Teams.Where(m => m.UserId == userid), "Id", "Name", player.TeamId);
                     else
                         ViewBag.TeamId = new SelectList(db.Teams, "Id", "Name", player.TeamId);
                     ViewBag.error = "Team is full select another";
@@ -152,7 +150,7 @@ namespace GamingZone.Controllers
 
                 }
             }
-         
+
             if (ImagePath != null)
             {
                 ImagePath.SaveAs(HttpContext.Server.MapPath("~/Images/")
@@ -179,9 +177,9 @@ namespace GamingZone.Controllers
 
 
         [HttpGet]
-        public ActionResult MyTeamPlayers(int teamID=0)
+        public ActionResult MyTeamPlayers(int teamID = 0)
         {
-            if(teamID==0)
+            if (teamID != 0)
             {
                 var myplayers = (from team in db.Teams
                                  join player in db.Players on team.Id equals player.TeamId
@@ -192,7 +190,8 @@ namespace GamingZone.Controllers
                                      Name = player.Name,
                                      Age = player.Age,
                                      Ratings = player.Ratings,
-                                     TeamName = team.Name
+                                     TeamName = team.Name,
+                                     ImagePath = player.ImagePath
                                  }
                         );
                 return View(myplayers);
@@ -209,14 +208,36 @@ namespace GamingZone.Controllers
                                      Name = player.Name,
                                      Age = player.Age,
                                      Ratings = player.Ratings,
-                                     TeamName = team.Name
+                                     TeamName = team.Name,
+                                     ImagePath= player.ImagePath
                                  }
                         );
                 return View(myplayers);
             }
-       
+
         }
-    
+        [HttpGet]
+        public ActionResult ViewOtherPlayers(int teamID = 0)
+        {
+            int userid = GetUserId();
+            var myplayers = (from team in db.Teams
+                             join player in db.Players on team.Id equals player.TeamId
+                             where team.UserId != userid
+                             select new TeamPlayerVM
+                             {
+                                 Id = player.Id,
+                                 Name = player.Name,
+                                 Age = player.Age,
+                                 Ratings = player.Ratings,
+                                 TeamName = team.Name,
+                                 ImagePath= player.ImagePath
+                             }
+                    );
+            return View(myplayers);
+
+        }
+
+
 
         public bool IsAdmin()
         {
@@ -232,7 +253,7 @@ namespace GamingZone.Controllers
             int id = Convert.ToInt32(userId);
             return id;
         }
-        
+
         [HttpGet]
         // POST: Players/Delete/5
         public ActionResult Delete(int id)
@@ -241,6 +262,33 @@ namespace GamingZone.Controllers
             db.Players.Remove(player);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        // GET: Players/Details/5
+        public ActionResult Profle(int? id)
+        {
+            int userid= GetUserId();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Player player = db.Players.Where(x => x.Id == id).Include(Xm => Xm.Ratings).FirstOrDefault();
+            if (player == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.user = userid;
+            ProfileVM profile = new ProfileVM();
+            profile.Players = player;
+            profile.Ratings = player.Ratings.Where(x=>x.UserId==userid).FirstOrDefault();
+            return View(profile);
+        }
+        [HttpPost]
+        public ActionResult Rating([Bind(Include = "Id,Rating1,PlayerId,UserId")] Rating player)
+        {
+            db.Ratings.Add(player);
+            db.SaveChanges();
+            return RedirectToAction("ViewOtherPlayers");
         }
 
         protected override void Dispose(bool disposing)
